@@ -1,7 +1,12 @@
 (() => {
+    if (!location.href.startsWith("https://ongeki-net.com/")) {
+        alert("このスクリプトはオンゲキNETのみ使用できます。");
+        return;
+    }
+
     const storyBaseURL = "https://ongeki-net.com/ongeki-mobile/record/storyDetail/?story=";
     const memoryBaseURL = "https://ongeki-net.com/ongeki-mobile/record/memoryChapterDetail/?idx=";
-    
+
     const storyIDs = [1, 2, 3, 4, 5]; // ストーリーID一覧
     const memoryIDs = [
         { id: 70001, name: "Spring Memory" },
@@ -11,7 +16,7 @@
         { id: 70005, name: "O.N.G.E.K.I. Memory" },
         { id: 70006, name: "END CHAPTER" }
     ];
-    
+
     let results = new Array(storyIDs.length + memoryIDs.length);
     let promises = [];
 
