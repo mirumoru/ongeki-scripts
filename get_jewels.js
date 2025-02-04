@@ -12,7 +12,7 @@
         { id: 70006, name: "END CHAPTER" }
     ];
     
-    let results = new Array(storyIDs.length + memoryIDs.length); // 順番を保持する配列
+    let results = new Array(storyIDs.length + memoryIDs.length);
     let promises = [];
 
     // ジュエル情報を取得する関数
@@ -52,15 +52,14 @@
         showPopup(results.join("<br>"));
     });
 
-    // ポップアップ表示関数
+    // ポップアップ表示関数（スマホ対応）
     function showPopup(content) {
-        // 既存のポップアップ削除
         let existingPopup = document.getElementById("customPopup");
         if (existingPopup) {
             existingPopup.remove();
         }
 
-        // ポップアップの背景
+        // オーバーレイ（背景）
         let overlay = document.createElement("div");
         overlay.id = "popupOverlay";
         overlay.style.position = "fixed";
@@ -86,10 +85,19 @@
         popup.style.zIndex = "9999";
         popup.style.fontFamily = "Arial, sans-serif";
         popup.style.textAlign = "center";
-        popup.style.minWidth = "250px";
-        popup.style.maxWidth = "80vw";
-        popup.style.maxHeight = "80vh";
         popup.style.overflowY = "auto";
+
+        // スマホ用のレイアウト調整
+        if (window.innerWidth <= 480) {
+            popup.style.width = "90%";
+            popup.style.maxWidth = "400px";
+            popup.style.maxHeight = "80vh";
+            popup.style.fontSize = "14px";
+        } else {
+            popup.style.width = "400px";
+            popup.style.maxHeight = "70vh";
+            popup.style.fontSize = "16px";
+        }
 
         // タイトル
         let title = document.createElement("h2");
@@ -107,15 +115,17 @@
 
         // 閉じる（リロード）ボタン
         let closeButton = document.createElement("button");
-        closeButton.innerText = "閉じる";
-        closeButton.style.marginTop = "10px";
-        closeButton.style.padding = "8px 12px";
+        closeButton.innerText = "閉じる（リロード）";
+        closeButton.style.marginTop = "15px";
+        closeButton.style.padding = "10px 15px";
         closeButton.style.border = "none";
         closeButton.style.borderRadius = "5px";
         closeButton.style.backgroundColor = "#007BFF";
         closeButton.style.color = "#fff";
         closeButton.style.cursor = "pointer";
-        closeButton.style.fontSize = "14px";
+        closeButton.style.fontSize = "16px";
+        closeButton.style.width = "100%";
+        closeButton.style.maxWidth = "200px";
         closeButton.addEventListener("click", reloadPage);
 
         // ポップアップに要素を追加
