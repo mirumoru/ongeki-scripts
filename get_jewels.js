@@ -48,6 +48,82 @@
     });
 
     Promise.all(promises).then(() => {
-        alert(results.join("\n"));
+        showPopup(results.join("<br>"));
     });
+
+    // 📌 ポップアップ表示関数
+    function showPopup(content) {
+        // 既存のポップアップ削除
+        let existingPopup = document.getElementById("customPopup");
+        if (existingPopup) {
+            existingPopup.remove();
+        }
+
+        // ポップアップの背景
+        let overlay = document.createElement("div");
+        overlay.id = "popupOverlay";
+        overlay.style.position = "fixed";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100vw";
+        overlay.style.height = "100vh";
+        overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+        overlay.style.zIndex = "9998";
+        overlay.addEventListener("click", () => overlay.remove());
+
+        // ポップアップ本体
+        let popup = document.createElement("div");
+        popup.id = "customPopup";
+        popup.style.position = "fixed";
+        popup.style.top = "50%";
+        popup.style.left = "50%";
+        popup.style.transform = "translate(-50%, -50%)";
+        popup.style.backgroundColor = "#fff";
+        popup.style.padding = "20px";
+        popup.style.borderRadius = "10px";
+        popup.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.3)";
+        popup.style.zIndex = "9999";
+        popup.style.fontFamily = "Arial, sans-serif";
+        popup.style.textAlign = "center";
+        popup.style.minWidth = "250px";
+        popup.style.maxWidth = "80vw";
+        popup.style.maxHeight = "80vh";
+        popup.style.overflowY = "auto";
+
+        // タイトル
+        let title = document.createElement("h2");
+        title.innerText = "ジュエル数一覧";
+        title.style.margin = "0 0 10px 0";
+        title.style.fontSize = "18px";
+        title.style.color = "#333";
+
+        // コンテンツ
+        let message = document.createElement("div");
+        message.innerHTML = content;
+        message.style.fontSize = "16px";
+        message.style.color = "#555";
+        message.style.lineHeight = "1.5";
+
+        // 閉じるボタン
+        let closeButton = document.createElement("button");
+        closeButton.innerText = "閉じる";
+        closeButton.style.marginTop = "10px";
+        closeButton.style.padding = "8px 12px";
+        closeButton.style.border = "none";
+        closeButton.style.borderRadius = "5px";
+        closeButton.style.backgroundColor = "#007BFF";
+        closeButton.style.color = "#fff";
+        closeButton.style.cursor = "pointer";
+        closeButton.style.fontSize = "14px";
+        closeButton.addEventListener("click", () => overlay.remove());
+
+        // ポップアップに要素を追加
+        popup.appendChild(title);
+        popup.appendChild(message);
+        popup.appendChild(closeButton);
+
+        // ドキュメントに追加
+        document.body.appendChild(overlay);
+        document.body.appendChild(popup);
+    }
 })();
