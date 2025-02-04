@@ -1,5 +1,5 @@
 (() => {
-    if (!location.href.startsWith("https://ongeki-net.com/")) {
+    if (!location.href.startsWith("https://ongeki-net.com/ongeki-mobile/")) {
         alert("このスクリプトはオンゲキNETのみ使用できます。");
         return;
     }
@@ -118,9 +118,9 @@
         message.style.color = "#555";
         message.style.lineHeight = "1.5";
 
-        // 閉じる（リロード）ボタン
+        // 閉じるボタン
         let closeButton = document.createElement("button");
-        closeButton.innerText = "閉じる（リロード）";
+        closeButton.innerText = "閉じる";
         closeButton.style.marginTop = "15px";
         closeButton.style.padding = "10px 15px";
         closeButton.style.border = "none";
