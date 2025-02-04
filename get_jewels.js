@@ -51,7 +51,7 @@
         showPopup(results.join("<br>"));
     });
 
-    // 📌 ポップアップ表示関数
+    // ポップアップ表示関数
     function showPopup(content) {
         // 既存のポップアップ削除
         let existingPopup = document.getElementById("customPopup");
