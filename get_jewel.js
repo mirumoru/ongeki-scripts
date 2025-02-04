@@ -1,10 +1,10 @@
 (() => {
     const baseURL = "https://ongeki-net.com/ongeki-mobile/record/storyDetail/?story=";
     const storyIDs = [1, 2, 3, 4, 5]; // ストーリーID一覧
-    let results = [];
+    let results = new Array(storyIDs.length); // 順番を保持する配列
     let promises = [];
 
-    storyIDs.forEach(storyID => {
+    storyIDs.forEach((storyID, index) => {
         let url = baseURL + storyID;
 
         let promise = fetch(url)
@@ -15,14 +15,14 @@
                 const jewelElement = doc.querySelector('.story_jewel_block span');
 
                 if (jewelElement) {
-                    results.push(`ストーリー ${storyID}: ${jewelElement.innerText} ジュエル`);
+                    results[index] = `ストーリー第${storyID}章: ${jewelElement.innerText} ジュエル`;
                 } else {
-                    results.push(`ストーリー ${storyID}: データなし`);
+                    results[index] = `ストーリー第${storyID}章: データなし`;
                 }
             })
             .catch(err => {
-                console.error(`ストーリー ${storyID} の取得に失敗:`, err);
-                results.push(`ストーリー ${storyID}: 取得エラー`);
+                console.error(`ストーリー第${storyID}章 の取得に失敗:`, err);
+                results[index] = `ストーリー第${storyID}章: 取得エラー`;
             });
 
         promises.push(promise);
