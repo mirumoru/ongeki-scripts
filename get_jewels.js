@@ -15,16 +15,17 @@
     let results = new Array(storyIDs.length + memoryIDs.length); // 順番を保持する配列
     let promises = [];
 
+    // 🔹 ジュエル情報を取得する関数
     const fetchJewelCount = (url, index, label) => {
         let promise = fetch(url)
             .then(res => res.text())
             .then(html => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, "text/html");
-                const jewelElement = doc.querySelector('.story_jewel_block span');
+                const jewelElement = doc.querySelector('.story_jewel_block span, .memory_jewel_block span');
 
                 if (jewelElement) {
-                    results[index] = `${label}: ${jewelElement.innerText} ジュエル`;
+                    results[index] = `${label}: ${jewelElement.innerText.trim()} ジュエル`;
                 } else {
                     results[index] = `${label}: 解放されていません`;
                 }
@@ -51,7 +52,7 @@
         showPopup(results.join("<br>"));
     });
 
-    // 📌 ポップアップ表示関数
+    // ポップアップ表示関数
     function showPopup(content) {
         // 既存のポップアップ削除
         let existingPopup = document.getElementById("customPopup");
@@ -69,7 +70,7 @@
         overlay.style.height = "100vh";
         overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
         overlay.style.zIndex = "9998";
-        overlay.addEventListener("click", () => overlay.remove());
+        overlay.addEventListener("click", closePopup);
 
         // ポップアップ本体
         let popup = document.createElement("div");
@@ -115,7 +116,7 @@
         closeButton.style.color = "#fff";
         closeButton.style.cursor = "pointer";
         closeButton.style.fontSize = "14px";
-        closeButton.addEventListener("click", () => overlay.remove());
+        closeButton.addEventListener("click", closePopup);
 
         // ポップアップに要素を追加
         popup.appendChild(title);
@@ -125,5 +126,14 @@
         // ドキュメントに追加
         document.body.appendChild(overlay);
         document.body.appendChild(popup);
+    }
+
+    // 🔹 ポップアップを閉じる関数
+    function closePopup() {
+        let overlay = document.getElementById("popupOverlay");
+        let popup = document.getElementById("customPopup");
+
+        if (overlay) overlay.remove();
+        if (popup) popup.remove();
     }
 })();
