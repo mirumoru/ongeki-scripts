@@ -15,7 +15,7 @@
     let results = new Array(storyIDs.length + memoryIDs.length); // 順番を保持する配列
     let promises = [];
 
-    // 🔹 ジュエル情報を取得する関数
+    // ジュエル情報を取得する関数
     const fetchJewelCount = (url, index, label) => {
         let promise = fetch(url)
             .then(res => res.text())
@@ -70,7 +70,7 @@
         overlay.style.height = "100vh";
         overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
         overlay.style.zIndex = "9998";
-        overlay.addEventListener("click", closePopup);
+        overlay.addEventListener("click", reloadPage);
 
         // ポップアップ本体
         let popup = document.createElement("div");
@@ -105,7 +105,7 @@
         message.style.color = "#555";
         message.style.lineHeight = "1.5";
 
-        // 閉じるボタン
+        // 閉じる（リロード）ボタン
         let closeButton = document.createElement("button");
         closeButton.innerText = "閉じる";
         closeButton.style.marginTop = "10px";
@@ -116,7 +116,7 @@
         closeButton.style.color = "#fff";
         closeButton.style.cursor = "pointer";
         closeButton.style.fontSize = "14px";
-        closeButton.addEventListener("click", closePopup);
+        closeButton.addEventListener("click", reloadPage);
 
         // ポップアップに要素を追加
         popup.appendChild(title);
@@ -128,12 +128,8 @@
         document.body.appendChild(popup);
     }
 
-    // 🔹 ポップアップを閉じる関数
-    function closePopup() {
-        let overlay = document.getElementById("popupOverlay");
-        let popup = document.getElementById("customPopup");
-
-        if (overlay) overlay.remove();
-        if (popup) popup.remove();
+    // 🔹 ページをリロードする関数
+    function reloadPage() {
+        location.reload();
     }
 })();
