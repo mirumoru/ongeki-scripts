@@ -128,7 +128,7 @@
         document.body.appendChild(popup);
     }
 
-    // 🔹 ページをリロードする関数
+    // ページをリロードする関数
     function reloadPage() {
         location.reload();
     }
