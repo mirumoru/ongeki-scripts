@@ -1,6 +1,7 @@
 # オンゲキNETスクリプト  
 このスプリクトはオンゲキNET上で各チャプターのジェルの数を一覧で表示します。  
-以下のコードをブックマークのURLに貼り付け、オンゲキNET上でクリックすると表示されます。  
+以下のコードをブックマークのURLに貼り付け、オンゲキNET上でクリックすると表示されます。    
+このコードはChatGPTで開発しています。  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/get_jewels.js";document.body.appendChild(s);})();  
 ```
