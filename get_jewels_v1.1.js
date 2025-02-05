@@ -6,7 +6,7 @@
 
     const storyBaseURL = "https://ongeki-net.com/ongeki-mobile/record/storyDetail/?story=5"; // 第5章のURL
     const purchaseCosts = [5000, 5000, 6000, 7000, 10000]; // フェアリーズ1～5枚目の必要ジュエル
-    const requiredFairies = 5; // デイドリーム・エンジェルズを購入するために必要なフェアリーズの枚数
+    const angelsCost = 10000; // エンジェルズ購入に必要なジュエル
     let currentJewels = 0;
 
     fetch(storyBaseURL)
@@ -58,18 +58,32 @@
                             let fairiesPurchased = fairiesOwned;
                             let totalJewelsNeeded = 0;
 
-                            // まだ購入していない分のジュエル計算
+                            // フェアリーズの必要ジュエル計算
                             for (let i = fairiesOwned; i < 5; i++) {
                                 totalJewelsNeeded += ${purchaseCosts}[i];
                             }
 
-                            let jewelsNeededForFairies = totalJewelsNeeded - remainingJewels;
+                            // フェアリーズ5枚そろったらエンジェルズの必要ジュエルを追加
+                            if (fairiesPurchased === 5) {
+                                totalJewelsNeeded += ${angelsCost};
+                            }
+
+                            let jewelsNeeded = totalJewelsNeeded - remainingJewels;
                             let resultMessage = \`
                                 <p>購入済みのデイドリーム・フェアリーズ: <span class="highlight">\${fairiesPurchased}</span> 枚</p>
-                                \${fairiesPurchased < 5
-                                    ? \`<p>デイドリーム・エンジェルズ獲得にはあと <span class="highlight">\${jewelsNeededForFairies}</span> ジュエル必要です。</p>\`
-                                    : \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`}
                             \`;
+
+                            if (fairiesPurchased < 5) {
+                                resultMessage += \`
+                                    <p>デイドリーム・フェアリーズを5枚集めるにはあと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
+                                \`;
+                            } else if (jewelsNeeded > 0) {
+                                resultMessage += \`
+                                    <p>デイドリーム・エンジェルズ獲得にはあと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
+                                \`;
+                            } else {
+                                resultMessage += \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`;
+                            }
 
                             document.getElementById("result").innerHTML = resultMessage;
                         }
