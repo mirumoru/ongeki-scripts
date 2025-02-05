@@ -44,6 +44,7 @@
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
                     <p>購入済みのデイドリーム・フェアリーズの数: <input type="number" id="fairiesOwned" min="0" max="5" value="0"></p>
                     <button onclick="calculateJewels()">計算する</button>
+                    <button onclick="window.close()">タブを閉じる</button>
                     <div id="result"></div>
 
                     <script>
@@ -91,6 +92,7 @@
                 </body>
                 </html>
             `);
+            newTab.document.close(); // これを追加して読み込み完了状態にする
         })
         .catch(err => {
             console.error("ジュエル情報の取得に失敗:", err);
