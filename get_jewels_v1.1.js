@@ -1,5 +1,5 @@
 (() => {
-    if (!location.href.startsWith("https://ongeki-net.com/ongeki-mobile/")) {
+    if (!location.href.startsWith("https://ongeki-net.com/")) {
         alert("このスクリプトはオンゲキNETのみ使用できます。");
         return;
     }
@@ -23,56 +23,57 @@
                 return;
             }
 
-            let fairiesPurchased = 0;
-            let remainingJewels = currentJewels;
-            let totalJewelsNeeded = 0;
-
-            // デイドリーム・フェアリーズを購入可能なだけ購入
-            for (let cost of purchaseCosts) {
-                if (remainingJewels >= cost) {
-                    remainingJewels -= cost;
-                    fairiesPurchased++;
-                } else {
-                    break;
-                }
-            }
-
-            // デイドリーム・エンジェルズを購入できるか確認
-            let angelsPurchasable = (fairiesPurchased >= requiredFairies);
-
-            // フェアリーズを5枚購入するために必要な合計ジュエル
-            for (let cost of purchaseCosts) {
-                totalJewelsNeeded += cost;
-            }
-
-            let jewelsNeededForFairies = totalJewelsNeeded - currentJewels;
-            let resultMessage = `
-                <h1>ジュエル計算結果</h1>
-                <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
-                <p>購入済みのデイドリーム・フェアリーズ: <span class="highlight">${fairiesPurchased}</span> 枚</p>
-                ${fairiesPurchased < requiredFairies 
-                    ? `<p>デイドリーム・エンジェルズ獲得にはあと <span class="highlight">${jewelsNeededForFairies}</span> ジュエル必要です。</p>`
-                    : `<p class="success">デイドリーム・エンジェルズを交換できます！</p>`}
-            `;
-
-            // 別タブで結果を表示
+            // 別タブで入力フォームを表示
             const newTab = window.open("", "_blank");
             newTab.document.write(`
                 <html>
                 <head>
-                    <title>ジュエル計算結果</title>
+                    <title>ジュエル計算</title>
                     <style>
                         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
                         h1 { color: #333; }
                         p { font-size: 18px; }
                         .highlight { font-size: 24px; font-weight: bold; color: #007BFF; }
                         .success { font-size: 24px; font-weight: bold; color: #28a745; }
-                        button { padding: 10px 20px; font-size: 16px; margin-top: 20px; }
+                        button, input { padding: 10px; font-size: 16px; margin-top: 10px; }
+                        input { width: 50px; text-align: center; }
                     </style>
                 </head>
                 <body>
-                    ${resultMessage}
-                    <button onclick="window.close()">閉じる</button>
+                    <h1>ジュエル計算</h1>
+                    <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
+                    <p>購入済みのデイドリーム・フェアリーズの数: <input type="number" id="fairiesOwned" min="0" max="5" value="0"></p>
+                    <button onclick="calculateJewels()">計算する</button>
+                    <div id="result"></div>
+
+                    <script>
+                        function calculateJewels() {
+                            let fairiesOwned = parseInt(document.getElementById("fairiesOwned").value, 10);
+                            if (isNaN(fairiesOwned) || fairiesOwned < 0 || fairiesOwned > 5) {
+                                alert("0～5の間で入力してください。");
+                                return;
+                            }
+
+                            let remainingJewels = ${currentJewels};
+                            let fairiesPurchased = fairiesOwned;
+                            let totalJewelsNeeded = 0;
+
+                            // まだ購入していない分のジュエル計算
+                            for (let i = fairiesOwned; i < 5; i++) {
+                                totalJewelsNeeded += ${purchaseCosts}[i];
+                            }
+
+                            let jewelsNeededForFairies = totalJewelsNeeded - remainingJewels;
+                            let resultMessage = \`
+                                <p>購入済みのデイドリーム・フェアリーズ: <span class="highlight">\${fairiesPurchased}</span> 枚</p>
+                                \${fairiesPurchased < 5
+                                    ? \`<p>デイドリーム・エンジェルズ獲得にはあと <span class="highlight">\${jewelsNeededForFairies}</span> ジュエル必要です。</p>\`
+                                    : \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`}
+                            \`;
+
+                            document.getElementById("result").innerHTML = resultMessage;
+                        }
+                    </script>
                 </body>
                 </html>
             `);
