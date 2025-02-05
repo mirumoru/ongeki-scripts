@@ -28,7 +28,7 @@
             newTab.document.write(`
                 <html>
                 <head>
-                    <title>ジュエル計算</title>
+                    <title>DDFとDDAの購入計算</title>
                     <style>
                         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
                         h1 { color: #333; }
@@ -40,7 +40,7 @@
                     </style>
                 </head>
                 <body>
-                    <h1>ジュエル計算</h1>
+                    <h1>DDFとDDAの購入計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
                     <p>購入済みのデイドリーム・フェアリーズの数: <input type="number" id="fairiesOwned" min="0" max="5" value="0"></p>
                     <button onclick="calculateJewels()">計算する</button>
