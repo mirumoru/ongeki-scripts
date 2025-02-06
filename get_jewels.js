@@ -14,7 +14,7 @@
         { id: 70003, name: "Autumn Memory" },
         { id: 70004, name: "Winter Memory" },
         { id: 70005, name: "O.N.G.E.K.I. Memory" },
-        { id: 70006, name: "END CHAPTER" }
+        { id: 70099, name: "END CHAPTER" }
     ];
 
     let results = new Array(storyIDs.length + memoryIDs.length);

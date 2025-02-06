@@ -28,7 +28,7 @@
             newTab.document.write(`
                 <html>
                 <head>
-                    <title>DDFとDDAの購入計算</title>
+                    <title>ジュエル計算</title>
                     <style>
                         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
                         h1 { color: #333; }
@@ -40,9 +40,9 @@
                     </style>
                 </head>
                 <body>
-                    <h1>DDFとDDAの獲得計算</h1>
+                    <h1>ジュエル計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
-                    <p>獲得済みのデイドリーム・フェアリーズの数: <input type="number" id="fairiesOwned" min="0" max="5" value="0"></p>
+                    <p>購入済みのデイドリーム・フェアリーズの数: <input type="number" id="fairiesOwned" min="0" max="5" value="0"></p>
                     <button onclick="calculateJewels()">計算する</button>
                     <button onclick="window.close()">タブを閉じる</button>
                     <div id="result"></div>
@@ -56,7 +56,6 @@
                             }
 
                             let remainingJewels = ${currentJewels};
-                            let fairiesPurchased = fairiesOwned;
                             let totalJewelsNeeded = 0;
 
                             // フェアリーズの必要ジュエル計算
@@ -65,21 +64,22 @@
                             }
 
                             // フェアリーズ5枚そろったらエンジェルズの必要ジュエルを追加
-                            if (fairiesPurchased === 5) {
+                            if (fairiesOwned === 5) {
                                 totalJewelsNeeded += ${angelsCost};
                             }
 
                             let jewelsNeeded = totalJewelsNeeded - remainingJewels;
                             let resultMessage = \`
-                                <p>獲得済みのデイドリーム・フェアリーズ: <span class="highlight">\${fairiesPurchased}</span> 枚</p>
+                                <p>購入済みのデイドリーム・フェアリーズ: <span class="highlight">\${fairiesOwned}</span> 枚</p>
                             \`;
 
                             if (fairiesOwned === 0) {
-                                let firstFairyCost = ${purchaseCosts}[0];
-                                let firstFairyJewelsNeeded = firstFairyCost - remainingJewels;
-                                if (firstFairyJewelsNeeded > 0) {
+                                resultMessage += \`
+                                    <p>デイドリーム・フェアリーズ1枚目の購入には <span class="highlight">${purchaseCosts[0]}</span> ジュエルが必要です。</p>
+                                \`;
+                            }
 
-                            if (fairiesPurchased < 5) {
+                            if (fairiesOwned < 5) {
                                 resultMessage += \`
                                     <p>デイドリーム・フェアリーズを5枚集めるにはあと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
                                 \`;
