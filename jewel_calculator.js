@@ -69,24 +69,22 @@
                             }
 
                             let jewelsNeeded = totalJewelsNeeded - remainingJewels;
-                            let resultMessage = \`
-                                <p>購入済みのデイドリーム・フェアリーズ: <span class="highlight">\${fairiesOwned}</span> 枚</p>
-                            \`;
+                            let resultMessage = "";
 
-                            if (fairiesOwned === 0) {
-                                resultMessage += \`
-                                    <p>デイドリーム・フェアリーズ1枚目の購入には <span class="highlight">${purchaseCosts[0]}</span> ジュエルが必要です。</p>
-                                \`;
-                            }
-
-                            if (fairiesOwned < 5) {
-                                resultMessage += \`
-                                    <p>デイドリーム・フェアリーズを5枚集めるにはあと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
-                                \`;
-                            } else if (jewelsNeeded > 0) {
-                                resultMessage += \`
-                                    <p>デイドリーム・エンジェルズ獲得にはあと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
-                                \`;
+                            if (jewelsNeeded > 0) {
+                                if (fairiesOwned === 0) {
+                                    resultMessage += \`
+                                        <p>デイドリーム・フェアリーズ1枚目を購入するには、あと <span class="highlight">${purchaseCosts[0] - remainingJewels}</span> ジュエル必要です。</p>
+                                    \`;
+                                } else if (fairiesOwned < 5) {
+                                    resultMessage += \`
+                                        <p>デイドリーム・フェアリーズ5枚目までに、あと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
+                                    \`;
+                                } else {
+                                    resultMessage += \`
+                                        <p>デイドリーム・エンジェルズを購入するには、あと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
+                                    \`;
+                                }
                             } else {
                                 resultMessage += \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`;
                             }
