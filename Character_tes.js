@@ -1,3 +1,10 @@
+() => {
+    if (!location.href.startsWith("https://ongeki-net.com/ongeki-mobile/")) {
+        alert("このスクリプトはオンゲキNETのみ使用できます。");
+        return;
+    }
+}
+
 (async () => {
     const baseUrl = "https://ongeki-net.com/ongeki-mobile/ranking/intimate/";
     const characterIds = Array.from({ length: 17 }, (_, i) => 1000 + i); // 1000 から 1016 まで
@@ -27,3 +34,6 @@
     // 取得したキャラクター名をポップアップ表示
     showPopup(characterNames.join("<br>"));
 })();
+
+// ブックマークレット用コード
+javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Character_tes.js";document.body.appendChild(s);})();
