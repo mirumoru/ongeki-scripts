@@ -75,9 +75,15 @@
                             \`;
 
                             if (fairiesPurchased === 0) {
-                                resultMessage += \`
-                                    <p>デイドリーム・フェアリーズ獲得までに <span class="highlight">\${purchaseCosts[0]}</span> ジュエルが必要です。</p>
-                                \`;
+                                let firstFairyCost = ${purchaseCosts}[0];
+                                let firstFairyJewelsNeeded = firstFairyCost - remainingJewels;
+                                if (firstFairyJewelsNeeded > 0) {
+                                    resultMessage += \`
+                                        <p>デイドリーム・フェアリーズ1枚目獲得までに <span class="highlight">\${firstFairyJewelsNeeded}</span> ジュエルが必要です。</p>
+                                    \`;
+                                } else {
+                                    resultMessage += \`<p class="success">デイドリーム・フェアリーズ1枚目を獲得できます！</p>\`;
+                                }
                             } else if (fairiesPurchased < 5) {
                                 resultMessage += \`
                                     <p>デイドリーム・フェアリーズを5枚集めるにはあと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
