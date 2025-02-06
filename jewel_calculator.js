@@ -42,7 +42,7 @@
                 <body>
                     <h1>DDFとDDAの購入計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
-                    <p>入手済みデイドリーム・フェアリーズの数: <input type="number" id="fairiesOwned" min="0" max="5" value="0"></p>
+                    <p>購入済みのデイドリーム・フェアリーズの数: <input type="number" id="fairiesOwned" min="0" max="5" value="0"></p>
                     <button onclick="calculateJewels()">計算する</button>
                     <button onclick="window.close()">タブを閉じる</button>
                     <div id="result"></div>
@@ -71,20 +71,10 @@
 
                             let jewelsNeeded = totalJewelsNeeded - remainingJewels;
                             let resultMessage = \`
-                                <p>入手済みデイドリーム・フェアリーズ: <span class="highlight">\${fairiesPurchased}</span> 枚</p>
+                                <p>購入済みのデイドリーム・フェアリーズ: <span class="highlight">\${fairiesPurchased}</span> 枚</p>
                             \`;
 
-                            if (fairiesPurchased === 0) {
-                                let firstFairyCost = ${purchaseCosts}[0];
-                                let firstFairyJewelsNeeded = firstFairyCost - remainingJewels;
-                                if (firstFairyJewelsNeeded > 0) {
-                                    resultMessage += \`
-                                        <p>デイドリーム・フェアリーズ1枚目獲得までに <span class="highlight">\${firstFairyJewelsNeeded}</span> ジュエルが必要です。</p>
-                                    \`;
-                                } else {
-                                    resultMessage += \`<p class="success">デイドリーム・フェアリーズ1枚目を獲得できます！</p>\`;
-                                }
-                            } else if (fairiesPurchased < 5) {
+                            if (fairiesPurchased < 5) {
                                 resultMessage += \`
                                     <p>デイドリーム・フェアリーズを5枚集めるにはあと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
                                 \`;
