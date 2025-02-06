@@ -40,8 +40,8 @@
                 const doc = parser.parseFromString(html, "text/html");
                 const characterElement = doc.querySelector(".m_5.f_15.ranking_kind_name");
                 
-                // プレイヤー名を取得
-                const playerNameElement = doc.querySelector(".t_l");
+                // プレイヤー名を取得 (ranking_title_block 内の最初の .t_l)
+                const playerNameElement = doc.querySelector(".ranking_title_block td.t_l");
                 const playerName = playerNameElement ? playerNameElement.innerText.trim() : "プレイヤー名不明";
 
                 // 親密度を取得
@@ -62,14 +62,15 @@
         
         const characterData = await Promise.all(characterIds.map(fetchCharacterNameAndFriendly));
         
-        // 別タブでキャラクター名とプレイヤー名、親密度を表示
+        // 別タブでキャラクター名、プレイヤー名、親密度を表示
         const newTab = window.open("", "_blank");
         if (newTab) {
             newTab.document.write("<html><head><title>キャラクター名一覧</title></head><body>");
             newTab.document.write("<h2>キャラクター名一覧</h2>");
             newTab.document.write("<ul>");
             characterData.forEach(({ characterName, playerName, friendlyScore }) => {
-                newTab.document.write(`<li>${playerName} - ${characterName} - 親密度: ${friendlyScore}</li>`);
+                // 表示順を「キャラクター名 - プレイヤー名 - 親密度」に変更
+                newTab.document.write(`<li>${characterName} - ${playerName} - 親密度: ${friendlyScore}</li>`);
             });
             newTab.document.write("</ul>");
             newTab.document.write("</body></html>");
