@@ -34,6 +34,3 @@
     // 取得したキャラクター名をポップアップ表示
     showPopup(characterNames.join("<br>"));
 })();
-
-// ブックマークレット用コード
-javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Character_tes.js";document.body.appendChild(s);})();
