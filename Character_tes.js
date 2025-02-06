@@ -30,7 +30,11 @@
         
         const characterNames = await Promise.all(characterIds.map(fetchCharacterName));
         
-        // 取得したキャラクター名をポップアップ表示
-        showPopup(characterNames.join("<br>"));
+        // showPopup関数が定義されているか確認してから実行
+        if (typeof showPopup === "function") {
+            showPopup(characterNames.join("<br>"));
+        } else {
+            console.error("showPopup 関数が見つかりません。スクリプトが正しく読み込まれているか確認してください。");
+        }
     })();
 })();
