@@ -65,12 +65,12 @@
         // 別タブでキャラクター名、プレイヤー名、親密度を表示
         const newTab = window.open("", "_blank");
         if (newTab) {
-            newTab.document.write("<html><head><title>キャラクター名一覧</title></head><body>");
+            newTab.document.write("<html><head><title>各キャラクター親密度全国1位一覧表</title></head><body>");
             newTab.document.write("<h2>各キャラクター親密度全国1位一覧表</h2>");
             newTab.document.write("<ul>");
             characterData.forEach(({ characterName, playerName, friendlyScore }) => {
                 // 表示順を「キャラクター名 - プレイヤー名 - 親密度」に変更
-                newTab.document.write(`<li>${characterName} - ${playerName} - 親密度: ${friendlyScore}</li>`);
+                newTab.document.write(`<li>${characterName} | ${playerName} | 親密度: ${friendlyScore}</li>`);
             });
             newTab.document.write("</ul>");
             newTab.document.write("</body></html>");
