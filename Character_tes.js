@@ -30,11 +30,20 @@
         
         const characterNames = await Promise.all(characterIds.map(fetchCharacterName));
         
-        // showPopup関数が定義されているか確認してから実行
-        if (typeof showPopup === "function") {
-            showPopup(characterNames.join("<br>"));
+        // 別タブでキャラクター名一覧を表示
+        const newTab = window.open("", "_blank");
+        if (newTab) {
+            newTab.document.write("<html><head><title>キャラクター名一覧</title></head><body>");
+            newTab.document.write("<h2>キャラクター名一覧</h2>");
+            newTab.document.write("<ul>");
+            characterNames.forEach(name => {
+                newTab.document.write(`<li>${name}</li>`);
+            });
+            newTab.document.write("</ul>");
+            newTab.document.write("</body></html>");
+            newTab.document.close();
         } else {
-            console.error("showPopup 関数が見つかりません。スクリプトが正しく読み込まれているか確認してください。");
+            alert("ポップアップがブロックされている可能性があります。設定を確認してください。");
         }
     })();
 })();
