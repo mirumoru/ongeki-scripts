@@ -74,7 +74,9 @@
                                 <p>購入済みのデイドリーム・フェアリーズ: <span class="highlight">\${fairiesPurchased}</span> 枚</p>
                             \`;
 
-                            if (fairiesPurchased < 5) {
+                            if (fairiesPurchased === 0) {
+                                resultMessage += \`<p>デイドリーム・フェアリーズ1枚目までの購入には <span class="highlight">\${purchaseCosts[0]}</span> ジュエルが必要です。</p>\`;
+                            } else if (fairiesPurchased < 5) {
                                 resultMessage += \`
                                     <p>デイドリーム・フェアリーズを5枚集めるにはあと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
                                 \`;
