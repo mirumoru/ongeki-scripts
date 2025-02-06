@@ -9,7 +9,26 @@
         const characterIds = Array.from({ length: 17 }, (_, i) => 1000 + i); // 1000 から 1016 まで
         const rankingType = 99;
         
-        async function fetchCharacterData(idx) {
+        // 親密度画像解析関数
+        function parseFriendlyImages(images) {
+            let friendly = 0;
+
+            // 1000の位 (ch[4])
+            friendly += images[4] ? (parseInt(images[4].src.split("num_")[1]) * 100) : 0;
+
+            // 100の位 (ch[5])
+            friendly += images[5] ? (parseInt(images[5].src.split("num_")[1]) * 100) : 0;
+
+            // 10の位 (ch[1])
+            friendly += images[1] ? parseInt(images[1].src.split("num_")[1]) : 0;
+
+            // 1の位 (ch[2])
+            friendly += images[2] ? parseInt(images[2].src.split("num_")[1]) : 0;
+
+            return friendly;
+        }
+
+        async function fetchCharacterNameAndFriendly(idx) {
             const url = `${baseUrl}?idx=${idx}&rankingType=${rankingType}`;
             try {
                 const response = await fetch(url);
@@ -20,35 +39,24 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, "text/html");
                 const characterElement = doc.querySelector(".m_5.f_15.ranking_kind_name");
-                const characterName = characterElement ? characterElement.innerText.trim() : `キャラ名不明 (idx=${idx})`;
                 
-                // ranking_block 内の ank_first.png の存在をチェック
-                const rankingBlock = doc.querySelector(".ranking_block");
-                const firstPlaceIcon = rankingBlock ? rankingBlock.querySelector("img[src*='ank_first.png']") : null;
-                let friendlyScore = "スコアなし";
-                
-                if (firstPlaceIcon) {
-                    const deluxeContainer = rankingBlock.querySelector(".character_friendly_deluxe_container");
-                    if (deluxeContainer) {
-                        const imgElements = deluxeContainer.querySelectorAll("img[src*='num_']");
-                        if (imgElements.length > 0) {
-                            friendlyScore = imgElements
-                                .map(img => img.src.match(/num_(\d+)/))
-                                .filter(match => match)
-                                .map(match => match[1])
-                                .join("");
-                        }
-                    }
+                // 親密度を取得
+                const deluxeContainer = doc.querySelector('.character_friendly_deluxe_container');
+                let friendlyScore = 0;
+                if (deluxeContainer) {
+                    const images = Array.from(deluxeContainer.querySelectorAll('img'));
+                    friendlyScore = parseFriendlyImages(images);
                 }
-                
-                return `${characterName} (${friendlyScore})`;
+
+                const characterName = characterElement ? characterElement.innerText.trim() : `キャラ名不明 (idx=${idx})`;
+                return { characterName, friendlyScore };
             } catch (error) {
                 console.error(`Error fetching data for idx=${idx}:`, error);
-                return `取得失敗 (idx=${idx})`;
+                return { characterName: `取得失敗 (idx=${idx})`, friendlyScore: 0 };
             }
         }
         
-        const characterData = await Promise.all(characterIds.map(fetchCharacterData));
+        const characterData = await Promise.all(characterIds.map(fetchCharacterNameAndFriendly));
         
         // 別タブでキャラクター名一覧を表示
         const newTab = window.open("", "_blank");
@@ -56,8 +64,8 @@
             newTab.document.write("<html><head><title>キャラクター名一覧</title></head><body>");
             newTab.document.write("<h2>キャラクター名一覧</h2>");
             newTab.document.write("<ul>");
-            characterData.forEach(data => {
-                newTab.document.write(`<li>${data}</li>`);
+            characterData.forEach(({ characterName, friendlyScore }) => {
+                newTab.document.write(`<li>${characterName} - 親密度: ${friendlyScore}</li>`);
             });
             newTab.document.write("</ul>");
             newTab.document.write("</body></html>");
