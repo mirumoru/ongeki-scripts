@@ -7,7 +7,7 @@
     const storyBaseURL = "https://ongeki-net.com/ongeki-mobile/record/storyDetail/?story=5"; // 第5章のURL
     const purchaseCosts = [5000, 5000, 6000, 7000, 10000]; // フェアリーズ1～5枚目の必要ジュエル
     const angelsCost = 10000; // エンジェルズ購入に必要なジュエル
-    let currentJewels = 0;
+    let currentJewels = 0; // 現在のジュエル数
 
     fetch(storyBaseURL)
         .then(res => res.text())
@@ -55,7 +55,6 @@
                                 return;
                             }
 
-                            let remainingJewels = ${currentJewels};
                             let totalJewelsNeeded = 0;
 
                             // フェアリーズの必要ジュエル計算
@@ -68,13 +67,13 @@
                                 totalJewelsNeeded += ${angelsCost};
                             }
 
-                            let jewelsNeeded = totalJewelsNeeded - remainingJewels;
+                            let jewelsNeeded = totalJewelsNeeded - ${currentJewels};
                             let resultMessage = "";
 
                             if (jewelsNeeded > 0) {
                                 if (fairiesOwned === 0) {
                                     resultMessage += \`
-                                        <p>デイドリーム・フェアリーズ1枚目を購入するには、あと <span class="highlight">${purchaseCosts[0] - remainingJewels}</span> ジュエル必要です。</p>
+                                        <p>デイドリーム・フェアリーズ1枚目を購入するには、あと <span class="highlight">${purchaseCosts[0] - currentJewels}</span> ジュエル必要です。</p>
                                     \`;
                                 } else if (fairiesOwned < 5) {
                                     resultMessage += \`
@@ -95,7 +94,7 @@
                 </body>
                 </html>
             `);
-            newTab.document.close(); // これを追加して読み込み完了状態にする
+            newTab.document.close(); // 読み込み完了状態にする
         })
         .catch(err => {
             console.error("ジュエル情報の取得に失敗:", err);
