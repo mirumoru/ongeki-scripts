@@ -8,7 +8,7 @@
         const baseUrl = "https://ongeki-net.com/ongeki-mobile/ranking/intimate/";
         const characterIds = Array.from({ length: 17 }, (_, i) => 1000 + i); // 1000 から 1016 まで
         const rankingType = 99;
-        
+
         // 親密度画像解析関数
         function parseFriendlyImages(images) {
             let friendly = 0;
@@ -40,6 +40,10 @@
                 const doc = parser.parseFromString(html, "text/html");
                 const characterElement = doc.querySelector(".m_5.f_15.ranking_kind_name");
                 
+                // プレイヤー名を取得
+                const playerNameElement = doc.querySelector(".t_l");
+                const playerName = playerNameElement ? playerNameElement.innerText.trim() : "プレイヤー名不明";
+
                 // 親密度を取得
                 const deluxeContainer = doc.querySelector('.character_friendly_deluxe_container');
                 let friendlyScore = 0;
@@ -49,23 +53,23 @@
                 }
 
                 const characterName = characterElement ? characterElement.innerText.trim() : `キャラ名不明 (idx=${idx})`;
-                return { characterName, friendlyScore };
+                return { characterName, playerName, friendlyScore };
             } catch (error) {
                 console.error(`Error fetching data for idx=${idx}:`, error);
-                return { characterName: `取得失敗 (idx=${idx})`, friendlyScore: 0 };
+                return { characterName: `取得失敗 (idx=${idx})`, playerName: "取得失敗", friendlyScore: 0 };
             }
         }
         
         const characterData = await Promise.all(characterIds.map(fetchCharacterNameAndFriendly));
         
-        // 別タブでキャラクター名一覧を表示
+        // 別タブでキャラクター名とプレイヤー名、親密度を表示
         const newTab = window.open("", "_blank");
         if (newTab) {
             newTab.document.write("<html><head><title>キャラクター名一覧</title></head><body>");
             newTab.document.write("<h2>キャラクター名一覧</h2>");
             newTab.document.write("<ul>");
-            characterData.forEach(({ characterName, friendlyScore }) => {
-                newTab.document.write(`<li>${characterName} - 親密度: ${friendlyScore}</li>`);
+            characterData.forEach(({ characterName, playerName, friendlyScore }) => {
+                newTab.document.write(`<li>${playerName} - ${characterName} - 親密度: ${friendlyScore}</li>`);
             });
             newTab.document.write("</ul>");
             newTab.document.write("</body></html>");
