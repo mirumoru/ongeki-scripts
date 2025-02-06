@@ -40,8 +40,8 @@
                 const doc = parser.parseFromString(html, "text/html");
                 const characterElement = doc.querySelector(".m_5.f_15.ranking_kind_name");
                 
-                // プレイヤー名を取得 (ranking_title_block 内の最初の .t_l)
-                const playerNameElement = doc.querySelector(".ranking_title_block td.t_l");
+                // プレイヤー名を取得 (ranking_inner_table内の一番上の .t_l)
+                const playerNameElement = doc.querySelector(".ranking_inner_table.f_14 tbody tr td.t_l");
                 const playerName = playerNameElement ? playerNameElement.innerText.trim() : "プレイヤー名不明";
 
                 // 親密度を取得
