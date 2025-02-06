@@ -110,9 +110,12 @@
             const rankingList = tab.document.getElementById('rankingList');
             rankingList.innerHTML = '';
 
-            // 新しい順番でリストを再描画
+            // ボタン部分を再描画せずに、並び替え後のデータを再表示
             sortedData.forEach(({ characterName, playerName, friendlyScore }) => {
-                tab.document.write(`<li data-score='${friendlyScore}'>${characterName} - ${playerName} - 親密度: ${friendlyScore}</li>`);
+                const listItem = tab.document.createElement('li');
+                listItem.setAttribute('data-score', friendlyScore);
+                listItem.textContent = `${characterName} - ${playerName} - 親密度: ${friendlyScore}`;
+                rankingList.appendChild(listItem);
             });
         }
     })();
