@@ -69,7 +69,7 @@
                                 totalJewelsNeeded += ${angelsCost};
                             }
 
-                            let jewelsNeeded = totalJewelsNeeded - ${currentJewels};
+                            let jewelsNeeded = Math.max(0, totalJewelsNeeded - ${currentJewels});
                             let resultMessage = "";
 
                             if (jewelsNeeded > 0) {
@@ -78,6 +78,7 @@
                                 let moneyNeeded = Math.ceil(gpNeeded / 120) * 100;
 
                                 resultMessage += \`
+                                    <p>デイドリーム・フェアリーズ獲得までに必要なジュエル: <span class="highlight">\${totalJewelsNeeded}</span> 個</p>
                                     <p>あと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
                                     <p>1プレイあたり <span class="highlight">\${jewelPerPlay}</span> ジュエル獲得するとして、あと <span class="highlight">\${playsNeeded}</span> プレイ必要です。</p>
                                     <p>消費GP: <span class="highlight">\${gpNeeded}</span> GP</p>
