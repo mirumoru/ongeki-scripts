@@ -42,7 +42,7 @@
                     <h1>ジュエル計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
                     <p>購入済みのデイドリーム・フェアリーズの数: <input type="number" id="fairiesOwned" min="0" max="5" value="0"></p>
-                    <p>1プレイあたりの平均ジュエル獲得数: <input type="number" id="jewelPerPlay" min="1" max="100" value="15"></p>
+                    <p>1プレイあたりの平均ジュエル獲得数: <input type="number" id="jewelPerPlay" min="1" max="180" value="15"></p>
                     <button onclick="calculateJewels()">計算する</button>
                     <button onclick="window.close()">タブを閉じる</button>
                     <div id="result"></div>
@@ -82,6 +82,8 @@
                                     <p>1プレイあたり <span class="highlight">\${jewelPerPlay}</span> ジュエル獲得するとして、あと <span class="highlight">\${playsNeeded}</span> プレイ必要です。</p>
                                     <p>消費GP: <span class="highlight">\${gpNeeded}</span> GP</p>
                                     <p>必要金額: <span class="highlight">\${moneyNeeded}</span> 円</p>
+                                    <p>※必ずしもこの計算が正しいとは限りません。あくまで参考までに。
+                                    <br> また、この計算はBタイプ(100円=120GP)です。</p>
                                 \`;
                             } else {
                                 resultMessage += \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`;
