@@ -41,6 +41,7 @@
                 <body>
                     <h1>ジュエル計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
+                    <p><label><input type="checkbox" id="fairiesPurchased"> デイドリーム・フェアリーズを1枚以上購入済み</label></p>
                     <p>購入済みのデイドリーム・フェアリーズの数: <input type="number" id="fairiesOwned" min="0" max="5" value="0"></p>
                     <p>1プレイあたりの平均ジュエル獲得数: <input type="number" id="jewelPerPlay" min="1" max="180" value="15"></p>
                     <button onclick="calculateJewels()">計算する</button>
@@ -49,6 +50,7 @@
 
                     <script>
                         function calculateJewels() {
+                            let fairiesPurchased = document.getElementById("fairiesPurchased").checked;
                             let fairiesOwned = parseInt(document.getElementById("fairiesOwned").value, 10);
                             let jewelPerPlay = parseInt(document.getElementById("jewelPerPlay").value, 10);
 
@@ -62,11 +64,18 @@
                             }
 
                             let totalJewelsNeeded = 0;
-                            for (let i = fairiesOwned; i < 5; i++) {
-                                totalJewelsNeeded += ${purchaseCosts}[i];
-                            }
-                            if (fairiesOwned === 5) {
-                                totalJewelsNeeded += ${angelsCost};
+                            let calculationTarget = "";
+
+                            if (fairiesPurchased) {
+                                // エンジェルズの購入計算
+                                totalJewelsNeeded = angelsCost;
+                                calculationTarget = "デイドリーム・エンジェルズ";
+                            } else {
+                                // フェアリーズの購入計算
+                                for (let i = fairiesOwned; i < 5; i++) {
+                                    totalJewelsNeeded += ${purchaseCosts}[i];
+                                }
+                                calculationTarget = "デイドリーム・フェアリーズ";
                             }
 
                             let jewelsNeeded = Math.max(0, totalJewelsNeeded - ${currentJewels});
@@ -78,7 +87,7 @@
                                 let moneyNeeded = Math.ceil(gpNeeded / 120) * 100;
 
                                 resultMessage += \`
-                                    <p>デイドリーム・フェアリーズ獲得までに必要なジュエル: <span class="highlight">\${totalJewelsNeeded}</span> 個</p>
+                                    <p><span class="highlight">\${calculationTarget}</span> を獲得するために必要なジュエル: <span class="highlight">\${totalJewelsNeeded}</span> 個</p>
                                     <p>あと <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
                                     <p>1プレイあたり <span class="highlight">\${jewelPerPlay}</span> ジュエル獲得するとして、あと <span class="highlight">\${playsNeeded}</span> プレイ必要です。</p>
                                     <p>消費GP: <span class="highlight">\${gpNeeded}</span> GP</p>
@@ -87,7 +96,7 @@
                                     <br> また、この計算はBタイプ(100円=120GP)です。</p>
                                 \`;
                             } else {
-                                resultMessage += \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`;
+                                resultMessage += \`<p class="success">\${calculationTarget} を交換できます！</p>\`;
                             }
 
                             document.getElementById("result").innerHTML = resultMessage;
