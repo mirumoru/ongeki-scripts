@@ -31,13 +31,18 @@
                     <style>
                         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
                         h1 { color: #333; }
-                        table { width: 80%; margin: 20px auto; border-collapse: collapse; }
-                        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+                        table { width: 100%; margin: 20px auto; border-collapse: collapse; overflow-x: auto; }
+                        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; font-size: 14px; }
                         th { background-color: #f2f2f2; }
                         .highlight { font-weight: bold; color: #007BFF; }
                         .success { font-weight: bold; color: #28a745; }
                         button, input { padding: 10px; font-size: 16px; margin-top: 10px; }
                         input { width: 70px; text-align: center; }
+                        @media (max-width: 600px) {
+                            th, td { font-size: 12px; padding: 8px; }
+                            table { font-size: 12px; }
+                            button, input { font-size: 14px; padding: 8px; }
+                        }
                     </style>
                 </head>
                 <body>
@@ -79,9 +84,8 @@
                                         <td>\${neededPlays}</td>
                                         <td>\${neededMoney}円</td>
                                     </tr>
-                                \`;
-                            }
-
+                                \`;}
+                            
                             totalJewelsNeeded += angelsCost;
                             let remainingJewels = Math.max(totalJewelsNeeded - currentJewels, 0);
                             let neededGP = remainingJewels * 3;
@@ -123,7 +127,6 @@
                                 また、必ずしもこの計算が正しいとは限りません。あくまで参考までに。
                                 </p>
                             \`;
-
                         }
                     </script>
                 </body>
