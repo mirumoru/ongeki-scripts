@@ -31,9 +31,11 @@
                     <style>
                         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
                         h1 { color: #333; }
-                        p { font-size: 18px; }
-                        .highlight { font-size: 24px; font-weight: bold; color: #007BFF; }
-                        .success { font-size: 24px; font-weight: bold; color: #28a745; }
+                        table { width: 60%; margin: 20px auto; border-collapse: collapse; }
+                        th, td { border: 1px solid #ddd; padding: 10px; }
+                        th { background-color: #f2f2f2; }
+                        .highlight { font-weight: bold; color: #007BFF; }
+                        .success { font-weight: bold; color: #28a745; }
                         button, input { padding: 10px; font-size: 16px; margin-top: 10px; }
                         input { width: 50px; text-align: center; }
                     </style>
@@ -41,66 +43,62 @@
                 <body>
                     <h1>ジュエル計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
-                    
-                    <p>
-                        <label><input type="checkbox" id="fairiesPurchased"> デイドリーム・フェアリーズを購入済み</label>
-                    </p>
-                    <p>
-                        購入済みのデイドリーム・フェアリーズの数: 
+                    <p>購入済みのデイドリーム・フェアリーズの数: 
                         <input type="number" id="fairiesOwned" min="0" max="5" value="0">
                     </p>
-
                     <button onclick="calculateJewels()">計算する</button>
                     <button onclick="window.close()">タブを閉じる</button>
                     <div id="result"></div>
 
                     <script>
-                        document.getElementById("fairiesPurchased").addEventListener("change", function() {
-                            document.getElementById("fairiesOwned").disabled = this.checked;
-                        });
-
                         function calculateJewels() {
-                            let fairiesPurchased = document.getElementById("fairiesPurchased").checked;
                             let fairiesOwned = parseInt(document.getElementById("fairiesOwned").value, 10);
-                            
-                            if (!fairiesPurchased && (isNaN(fairiesOwned) || fairiesOwned < 0 || fairiesOwned > 5)) {
+                            if (isNaN(fairiesOwned) || fairiesOwned < 0 || fairiesOwned > 5) {
                                 alert("0～5の間で入力してください。");
                                 return;
                             }
 
                             let totalJewelsNeeded = 0;
-                            let jewelsNeeded = 0;
-                            let resultMessage = "";
+                            let tableRows = "";
 
-                            if (!fairiesPurchased) {
-                                for (let i = fairiesOwned; i < 5; i++) {
-                                    totalJewelsNeeded += ${purchaseCosts}[i];
-                                }
-                                if (fairiesOwned === 5) {
-                                    totalJewelsNeeded += ${angelsCost};
-                                }
-                                jewelsNeeded = totalJewelsNeeded - ${currentJewels};
-
-                                if (jewelsNeeded > 0) {
-                                    if (fairiesOwned === 0) {
-                                        resultMessage = \`
-                                            <p>デイドリーム・フェアリーズ1枚目を購入するには、あと 
-                                            <span class="highlight">${purchaseCosts[0] - currentJewels}</span> ジュエル必要です。</p>
-                                        \`;
-                                    } else {
-                                        resultMessage = \`
-                                            <p>デイドリーム・フェアリーズ5枚目までに、あと
-                                            <span class="highlight">\${jewelsNeeded}</span> ジュエル必要です。</p>
-                                        \`;
-                                    }
-                                } else {
-                                    resultMessage = \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`;
-                                }
-                            } else {
-                                resultMessage = \`<p class="success">すでにデイドリーム・フェアリーズを購入済みです。</p>\`;
+                            for (let i = fairiesOwned; i < 5; i++) {
+                                totalJewelsNeeded += ${purchaseCosts}[i];
+                                tableRows += \`
+                                    <tr>
+                                        <td>デイドリーム・フェアリーズ\${i + 1}枚目</td>
+                                        <td>\${${purchaseCosts}[i]}</td>
+                                        <td>\${totalJewelsNeeded - ${currentJewels} > 0 ? totalJewelsNeeded - ${currentJewels} : 0}</td>
+                                    </tr>
+                                \`;
                             }
 
-                            document.getElementById("result").innerHTML = resultMessage;
+                            if (fairiesOwned === 5) {
+                                totalJewelsNeeded += ${angelsCost};
+                                tableRows += \`
+                                    <tr>
+                                        <td>デイドリーム・エンジェルズ購入</td>
+                                        <td>${angelsCost}</td>
+                                        <td>\${totalJewelsNeeded - ${currentJewels} > 0 ? totalJewelsNeeded - ${currentJewels} : 0}</td>
+                                    </tr>
+                                \`;
+                            }
+
+                            let resultTable = \`
+                                <table>
+                                    <tr>
+                                        <th>項目</th>
+                                        <th>必要ジュエル</th>
+                                        <th>あと必要なジュエル</th>
+                                    </tr>
+                                    \${tableRows}
+                                </table>
+                            \`;
+
+                            if (totalJewelsNeeded - ${currentJewels} <= 0) {
+                                resultTable += \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`;
+                            }
+
+                            document.getElementById("result").innerHTML = resultTable;
                         }
                     </script>
                 </body>
