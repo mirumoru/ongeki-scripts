@@ -118,7 +118,12 @@
                                 resultTable += \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`;
                             }
 
-                            document.getElementById("result").innerHTML = resultTable;
+                            document.getElementById("result").innerHTML = resultTable + \`
+                                <p style="margin-top: 10px; font-size: 14px; color: #555;">
+                                ※この計算はBタイプ(100円=120GP)で計算しています。<br>
+                                また、必ずしもこの計算が正しいとは限りません。あくまで参考までに。
+                                </p>
+                            \`;
                         }
                     </script>
                 </body>
