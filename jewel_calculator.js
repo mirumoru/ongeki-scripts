@@ -27,7 +27,7 @@
             newTab.document.write(`
                 <html>
                 <head>
-                    <title>ジュエル計算</title>
+                    <title>DDF&DDAジュエル計算</title>
                     <style>
                         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
                         h1 { color: #333; }
@@ -41,7 +41,7 @@
                     </style>
                 </head>
                 <body>
-                    <h1>ジュエル計算</h1>
+                    <h1>DDF&DDAジュエル計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
                     <p>1プレイで獲得できるジュエル数: <input type="number" id="jewelsPerPlay" min="1" max="180" value="12"></p>
                     <button onclick="calculateJewels()">計算する</button>
@@ -112,6 +112,7 @@
                                     \${tableRows}
                                 </table>
                             \`;
+                            <p>※この計算はBタイプ(100円=120GP)で計算しています。<br>また、必ずしもこの計算が正しいとは限りません。あくまで参考までに。</p>
 
                             if (totalJewelsNeeded - currentJewels <= 0) {
                                 resultTable += \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`;
