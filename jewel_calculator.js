@@ -112,7 +112,6 @@
                                     \${tableRows}
                                 </table>
                             \`;
-                            <p>※この計算はBタイプ(100円=120GP)で計算しています。<br>また、必ずしもこの計算が正しいとは限りません。あくまで参考までに。</p>
 
                             if (totalJewelsNeeded - currentJewels <= 0) {
                                 resultTable += \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`;
@@ -124,6 +123,7 @@
                                 また、必ずしもこの計算が正しいとは限りません。あくまで参考までに。
                                 </p>
                             \`;
+
                         }
                     </script>
                 </body>
