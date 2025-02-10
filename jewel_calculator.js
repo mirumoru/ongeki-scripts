@@ -38,6 +38,7 @@
                         .success { font-weight: bold; color: #28a745; }
                         button, input { padding: 10px; font-size: 16px; margin-top: 10px; }
                         input { width: 70px; text-align: center; }
+                        label { display: block; margin: 5px 0; font-size: 14px; }
                         @media (max-width: 600px) {
                             th, td { font-size: 12px; padding: 8px; }
                             table { font-size: 12px; }
@@ -49,6 +50,12 @@
                     <h1>DDF&DDAジュエル計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
                     <p>1プレイで獲得できるジュエル数: <input type="number" id="jewelsPerPlay" min="1" max="180" value="12"></p>
+                    
+                    <h3>購入済みのカードにチェックを入れてください</h3>
+                    <div id="checkboxes">
+                        ${purchaseCosts.map((_, i) => `<label><input type="checkbox" id="card${i}"> デイドリーム・フェアリーズ${i + 1}枚目</label>`).join("")}
+                    </div>
+
                     <button onclick="calculateJewels()">計算する</button>
                     <button onclick="window.close()">タブを閉じる</button>
                     <div id="result"></div>
@@ -69,6 +76,8 @@
                             let tableRows = "";
 
                             for (let i = 0; i < 5; i++) {
+                                if (document.getElementById("card" + i).checked) continue; // 購入済みならスキップ
+
                                 totalJewelsNeeded += purchaseCosts[i];
                                 let remainingJewels = Math.max(totalJewelsNeeded - currentJewels, 0);
                                 let neededGP = remainingJewels * 3;
@@ -77,15 +86,16 @@
 
                                 tableRows += \`
                                     <tr>
-                                        <td>デイドリーム・フェアリーズ\${i + 1}枚目</td>
+                                        <td><input type="checkbox" id="card\${i}" checked disabled> デイドリーム・フェアリーズ\${i + 1}枚目</td>
                                         <td>\${purchaseCosts[i]}</td>
                                         <td>\${remainingJewels}</td>
                                         <td>\${neededGP}</td>
                                         <td>\${neededPlays}</td>
                                         <td>\${neededMoney}円</td>
                                     </tr>
-                                \`;}
-                            
+                                \`;
+                            }
+
                             totalJewelsNeeded += angelsCost;
                             let remainingJewels = Math.max(totalJewelsNeeded - currentJewels, 0);
                             let neededGP = remainingJewels * 3;
