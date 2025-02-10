@@ -31,17 +31,20 @@
                     <style>
                         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
                         h1 { color: #333; }
-                        table { width: 60%; margin: 20px auto; border-collapse: collapse; }
-                        th, td { border: 1px solid #ddd; padding: 10px; }
+                        table { width: 80%; margin: 20px auto; border-collapse: collapse; }
+                        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
                         th { background-color: #f2f2f2; }
                         .highlight { font-weight: bold; color: #007BFF; }
                         .success { font-weight: bold; color: #28a745; }
-                        button { padding: 10px; font-size: 16px; margin-top: 10px; }
+                        button, input { padding: 10px; font-size: 16px; margin-top: 10px; }
+                        input { width: 50px; text-align: center; }
                     </style>
                 </head>
                 <body>
                     <h1>ジュエル計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
+                    <p>1プレイで獲得できるジュエル数: <input type="number" id="jewelsPerPlay" min="1" max="50" value="10"></p>
+                    <button onclick="calculateJewels()">計算する</button>
                     <button onclick="window.close()">タブを閉じる</button>
                     <div id="result"></div>
 
@@ -51,28 +54,48 @@
                         let currentJewels = ${currentJewels};
 
                         function calculateJewels() {
+                            let jewelsPerPlay = parseFloat(document.getElementById("jewelsPerPlay").value);
+                            if (isNaN(jewelsPerPlay) || jewelsPerPlay <= 0) {
+                                alert("1プレイあたりのジュエル数を正しく入力してください。");
+                                return;
+                            }
+
                             let totalJewelsNeeded = 0;
                             let tableRows = "";
 
                             for (let i = 0; i < 5; i++) {
                                 totalJewelsNeeded += purchaseCosts[i];
                                 let remainingJewels = Math.max(totalJewelsNeeded - currentJewels, 0);
+                                let neededGP = remainingJewels * 3;
+                                let neededPlays = Math.ceil(remainingJewels / jewelsPerPlay);
+                                let neededMoney = Math.ceil((neededPlays * 40) / 120) * 100;
+
                                 tableRows += \`
                                     <tr>
                                         <td>デイドリーム・フェアリーズ\${i + 1}枚目</td>
                                         <td>\${purchaseCosts[i]}</td>
                                         <td>\${remainingJewels}</td>
+                                        <td>\${neededGP}</td>
+                                        <td>\${neededPlays}</td>
+                                        <td>\${neededMoney}円</td>
                                     </tr>
                                 \`;
                             }
 
                             totalJewelsNeeded += angelsCost;
                             let remainingJewels = Math.max(totalJewelsNeeded - currentJewels, 0);
+                            let neededGP = remainingJewels * 3;
+                            let neededPlays = Math.ceil(remainingJewels / jewelsPerPlay);
+                            let neededMoney = Math.ceil((neededPlays * 40) / 120) * 100;
+
                             tableRows += \`
                                 <tr>
                                     <td>デイドリーム・エンジェルズ購入</td>
                                     <td>\${angelsCost}</td>
                                     <td>\${remainingJewels}</td>
+                                    <td>\${neededGP}</td>
+                                    <td>\${neededPlays}</td>
+                                    <td>\${neededMoney}円</td>
                                 </tr>
                             \`;
 
@@ -82,6 +105,9 @@
                                         <th>項目</th>
                                         <th>必要ジュエル</th>
                                         <th>あと必要なジュエル</th>
+                                        <th>必要GP</th>
+                                        <th>必要プレイ回数</th>
+                                        <th>必要金額</th>
                                     </tr>
                                     \${tableRows}
                                 </table>
@@ -93,8 +119,6 @@
 
                             document.getElementById("result").innerHTML = resultTable;
                         }
-
-                        calculateJewels();
                     </script>
                 </body>
                 </html>
