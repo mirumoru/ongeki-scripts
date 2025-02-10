@@ -46,28 +46,32 @@
                     <div id="result"></div>
 
                     <script>
+                        const purchaseCosts = [5000, 5000, 6000, 7000, 10000];
+                        const angelsCost = 10000;
+                        let currentJewels = ${currentJewels};
+
                         function calculateJewels() {
                             let totalJewelsNeeded = 0;
                             let tableRows = "";
 
                             for (let i = 0; i < 5; i++) {
-                                totalJewelsNeeded += ${purchaseCosts}[i];
-                                let remainingJewels = Math.max(totalJewelsNeeded - ${currentJewels}, 0);
+                                totalJewelsNeeded += purchaseCosts[i];
+                                let remainingJewels = Math.max(totalJewelsNeeded - currentJewels, 0);
                                 tableRows += \`
                                     <tr>
                                         <td>デイドリーム・フェアリーズ\${i + 1}枚目</td>
-                                        <td>\${${purchaseCosts}[i]}</td>
+                                        <td>\${purchaseCosts[i]}</td>
                                         <td>\${remainingJewels}</td>
                                     </tr>
                                 \`;
                             }
 
-                            totalJewelsNeeded += ${angelsCost};
-                            let remainingJewels = Math.max(totalJewelsNeeded - ${currentJewels}, 0);
+                            totalJewelsNeeded += angelsCost;
+                            let remainingJewels = Math.max(totalJewelsNeeded - currentJewels, 0);
                             tableRows += \`
                                 <tr>
                                     <td>デイドリーム・エンジェルズ購入</td>
-                                    <td>${angelsCost}</td>
+                                    <td>\${angelsCost}</td>
                                     <td>\${remainingJewels}</td>
                                 </tr>
                             \`;
@@ -83,7 +87,7 @@
                                 </table>
                             \`;
 
-                            if (totalJewelsNeeded - ${currentJewels} <= 0) {
+                            if (totalJewelsNeeded - currentJewels <= 0) {
                                 resultTable += \`<p class="success">デイドリーム・エンジェルズを交換できます！</p>\`;
                             }
 
