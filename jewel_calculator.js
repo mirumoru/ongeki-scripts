@@ -38,7 +38,6 @@
                         .success { font-weight: bold; color: #28a745; }
                         button, input { padding: 10px; font-size: 16px; margin-top: 10px; }
                         input { width: 70px; text-align: center; }
-                        label { display: block; margin: 5px 0; font-size: 14px; }
                         @media (max-width: 600px) {
                             th, td { font-size: 12px; padding: 8px; }
                             table { font-size: 12px; }
@@ -49,13 +48,8 @@
                 <body>
                     <h1>DDF&DDAジュエル計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
+                    <p>デイドリーム・フェアリーズ所持枚数: <input type="number" id="ownedCards" min="0" max="5" value="0"></p>
                     <p>1プレイで獲得できるジュエル数: <input type="number" id="jewelsPerPlay" min="1" max="180" value="12"></p>
-                    
-                    <h3>購入済みのカードにチェックを入れてください</h3>
-                    <div id="checkboxes">
-                        ${purchaseCosts.map((_, i) => `<label><input type="checkbox" id="card${i}"> デイドリーム・フェアリーズ${i + 1}枚目</label>`).join("")}
-                    </div>
-
                     <button onclick="calculateJewels()">計算する</button>
                     <button onclick="window.close()">タブを閉じる</button>
                     <div id="result"></div>
@@ -66,7 +60,13 @@
                         let currentJewels = ${currentJewels};
 
                         function calculateJewels() {
+                            let ownedCards = parseInt(document.getElementById("ownedCards").value, 10);
                             let jewelsPerPlay = parseFloat(document.getElementById("jewelsPerPlay").value);
+
+                            if (isNaN(ownedCards) || ownedCards < 0 || ownedCards > 5) {
+                                alert("所持枚数を0〜5の範囲で入力してください。");
+                                return;
+                            }
                             if (isNaN(jewelsPerPlay) || jewelsPerPlay <= 0) {
                                 alert("1プレイあたりのジュエル数を正しく入力してください。");
                                 return;
@@ -75,9 +75,7 @@
                             let totalJewelsNeeded = 0;
                             let tableRows = "";
 
-                            for (let i = 0; i < 5; i++) {
-                                if (document.getElementById("card" + i).checked) continue; // 購入済みならスキップ
-
+                            for (let i = ownedCards; i < 5; i++) {
                                 totalJewelsNeeded += purchaseCosts[i];
                                 let remainingJewels = Math.max(totalJewelsNeeded - currentJewels, 0);
                                 let neededGP = remainingJewels * 3;
@@ -86,7 +84,7 @@
 
                                 tableRows += \`
                                     <tr>
-                                        <td><input type="checkbox" id="card\${i}" checked disabled> デイドリーム・フェアリーズ\${i + 1}枚目</td>
+                                        <td>デイドリーム・フェアリーズ\${i + 1}枚目</td>
                                         <td>\${purchaseCosts[i]}</td>
                                         <td>\${remainingJewels}</td>
                                         <td>\${neededGP}</td>
