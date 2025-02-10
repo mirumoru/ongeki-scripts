@@ -8,7 +8,13 @@
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/get_jewels.js";document.body.appendChild(s);})();  
 ```
-## DDFとDDAの購入計算
+## DDF&DDAジュエル計算
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/jewel_calculator.js";document.body.appendChild(s);})();  
+```
+
+## 各キャラクター全国1位表  
+ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
+```
+javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Character_doi_ranking.js";document.body.appendChild(s);})();
 ```
