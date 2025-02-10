@@ -36,52 +36,41 @@
                         th { background-color: #f2f2f2; }
                         .highlight { font-weight: bold; color: #007BFF; }
                         .success { font-weight: bold; color: #28a745; }
-                        button, input { padding: 10px; font-size: 16px; margin-top: 10px; }
-                        input { width: 50px; text-align: center; }
+                        button { padding: 10px; font-size: 16px; margin-top: 10px; }
                     </style>
                 </head>
                 <body>
                     <h1>ジュエル計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
-                    <p>購入済みのデイドリーム・フェアリーズの数: 
-                        <input type="number" id="fairiesOwned" min="0" max="5" value="0">
-                    </p>
-                    <button onclick="calculateJewels()">計算する</button>
                     <button onclick="window.close()">タブを閉じる</button>
                     <div id="result"></div>
 
                     <script>
                         function calculateJewels() {
-                            let fairiesOwned = parseInt(document.getElementById("fairiesOwned").value, 10);
-                            if (isNaN(fairiesOwned) || fairiesOwned < 0 || fairiesOwned > 5) {
-                                alert("0～5の間で入力してください。");
-                                return;
-                            }
-
                             let totalJewelsNeeded = 0;
                             let tableRows = "";
 
-                            for (let i = fairiesOwned; i < 5; i++) {
+                            for (let i = 0; i < 5; i++) {
                                 totalJewelsNeeded += ${purchaseCosts}[i];
+                                let remainingJewels = Math.max(totalJewelsNeeded - ${currentJewels}, 0);
                                 tableRows += \`
                                     <tr>
                                         <td>デイドリーム・フェアリーズ\${i + 1}枚目</td>
                                         <td>\${${purchaseCosts}[i]}</td>
-                                        <td>\${totalJewelsNeeded - ${currentJewels} > 0 ? totalJewelsNeeded - ${currentJewels} : 0}</td>
+                                        <td>\${remainingJewels}</td>
                                     </tr>
                                 \`;
                             }
 
-                            if (fairiesOwned === 5) {
-                                totalJewelsNeeded += ${angelsCost};
-                                tableRows += \`
-                                    <tr>
-                                        <td>デイドリーム・エンジェルズ購入</td>
-                                        <td>${angelsCost}</td>
-                                        <td>\${totalJewelsNeeded - ${currentJewels} > 0 ? totalJewelsNeeded - ${currentJewels} : 0}</td>
-                                    </tr>
-                                \`;
-                            }
+                            totalJewelsNeeded += ${angelsCost};
+                            let remainingJewels = Math.max(totalJewelsNeeded - ${currentJewels}, 0);
+                            tableRows += \`
+                                <tr>
+                                    <td>デイドリーム・エンジェルズ購入</td>
+                                    <td>${angelsCost}</td>
+                                    <td>\${remainingJewels}</td>
+                                </tr>
+                            \`;
 
                             let resultTable = \`
                                 <table>
@@ -100,6 +89,8 @@
 
                             document.getElementById("result").innerHTML = resultTable;
                         }
+
+                        calculateJewels();
                     </script>
                 </body>
                 </html>
