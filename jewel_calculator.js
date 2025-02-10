@@ -37,13 +37,13 @@
                         .highlight { font-weight: bold; color: #007BFF; }
                         .success { font-weight: bold; color: #28a745; }
                         button, input { padding: 10px; font-size: 16px; margin-top: 10px; }
-                        input { width: 50px; text-align: center; }
+                        input { width: 70px; text-align: center; }
                     </style>
                 </head>
                 <body>
                     <h1>ジュエル計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
-                    <p>1プレイで獲得できるジュエル数: <input type="number" id="jewelsPerPlay" min="1" max="50" value="10"></p>
+                    <p>1プレイで獲得できるジュエル数: <input type="number" id="jewelsPerPlay" min="1" max="180" value="12"></p>
                     <button onclick="calculateJewels()">計算する</button>
                     <button onclick="window.close()">タブを閉じる</button>
                     <div id="result"></div>
