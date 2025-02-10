@@ -68,14 +68,23 @@
             newTab.document.write("<html><head><title>各キャラクター親密度全国1位一覧表</title></head><body>");
             newTab.document.write("<h2>各キャラクター親密度全国1位一覧表</h2>");
             newTab.document.write("<div><button id='sortDefault'>デフォルト順</button> <button id='sortHigh'>高い順</button> <button id='sortLow'>低い順</button></div>");
-            newTab.document.write("<ul id='rankingList'>");
+            newTab.document.write("<table id='rankingTable' border='1' cellpadding='5' cellspacing='0'>");
+            newTab.document.write("<thead><tr><th>キャラクター名</th><th>プレイヤー名</th><th>親密度</th></tr></thead>");
+            newTab.document.write("<tbody>");
 
-            // デフォルト順でリストを表示
+            // デフォルト順でテーブルを表示
             characterData.forEach(({ characterName, playerName, friendlyScore }) => {
-                newTab.document.write(`<li data-score='${friendlyScore}'>${characterName} - ${playerName} - 親密度: ${friendlyScore}</li>`);
+                newTab.document.write(`<tr data-score='${friendlyScore}'>
+                    <td>${characterName}</td>
+                    <td>${playerName}</td>
+                    <td>${friendlyScore}</td>
+                </tr>`);
             });
 
-            newTab.document.write("</ul>");
+            newTab.document.write("</tbody>");
+            newTab.document.write("</table>");
+            newTab.document.write("</body></html>");
+            newTab.document.close();
 
             // 並び替えの処理
             newTab.document.getElementById('sortDefault').addEventListener('click', function() {
@@ -87,9 +96,6 @@
             newTab.document.getElementById('sortLow').addEventListener('click', function() {
                 sortRanking(newTab, characterData, 'low');
             });
-
-            newTab.document.write("</body></html>");
-            newTab.document.close();
         } else {
             alert("ポップアップがブロックされている可能性があります。設定を確認してください。");
         }
@@ -106,16 +112,20 @@
                 sortedData = [...data].sort((a, b) => a.friendlyScore - b.friendlyScore); // 親密度が低い順
             }
 
-            // リストをクリア
-            const rankingList = tab.document.getElementById('rankingList');
-            rankingList.innerHTML = '';
+            // テーブルをクリア
+            const rankingTable = tab.document.getElementById('rankingTable').getElementsByTagName('tbody')[0];
+            rankingTable.innerHTML = '';
 
             // ボタン部分を再描画せずに、並び替え後のデータを再表示
             sortedData.forEach(({ characterName, playerName, friendlyScore }) => {
-                const listItem = tab.document.createElement('li');
-                listItem.setAttribute('data-score', friendlyScore);
-                listItem.textContent = `${characterName} - ${playerName} - 親密度: ${friendlyScore}`;
-                rankingList.appendChild(listItem);
+                const row = tab.document.createElement('tr');
+                row.setAttribute('data-score', friendlyScore);
+                row.innerHTML = `
+                    <td>${characterName}</td>
+                    <td>${playerName}</td>
+                    <td>${friendlyScore}</td>
+                `;
+                rankingTable.appendChild(row);
             });
         }
     })();
