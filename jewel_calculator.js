@@ -49,7 +49,7 @@
                     <h1>DDF&DDAジュエル計算</h1>
                     <p>現在の第5章ジュエル: <span class="highlight">${currentJewels}</span> 個</p>
                     <p>デイドリーム・フェアリーズ所持枚数: <input type="number" id="ownedCards" min="0" max="5" value="0"></p>
-                    <p>1プレイで獲得できるジュエル数: <input type="number" id="jewelsPerPlay" min="1" max="180" value="12"></p>
+                    <p>1TRACKで獲得できるジュエル数: <input type="number" id="jewelsPerPlay" min="1" max="180" value="12"></p>
                     <button onclick="calculateJewels()">計算する</button>
                     <button onclick="window.close()">タブを閉じる</button>
                     <div id="result"></div>
@@ -68,7 +68,7 @@
                                 return;
                             }
                             if (isNaN(jewelsPerPlay) || jewelsPerPlay <= 0) {
-                                alert("1プレイあたりのジュエル数を正しく入力してください。");
+                                alert("1TRACKあたりのジュエル数を正しく入力してください。");
                                 return;
                             }
 
@@ -118,7 +118,7 @@
                                         <th>必要ジュエル</th>
                                         <th>あと必要なジュエル</th>
                                         <th>必要GP</th>
-                                        <th>必要プレイ回数</th>
+                                        <th>必要TRACK回数</th>
                                         <th>必要金額</th>
                                     </tr>
                                     \${tableRows}
