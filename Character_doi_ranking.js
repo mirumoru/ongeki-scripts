@@ -13,20 +13,36 @@
         function parseFriendlyImages(images) {
             let friendly = 0;
 
-            // 1000の位 (ch[4])
-            friendly += images[4] ? (parseInt(images[4].src.split("num_")[1]) * 100) : 0;
-
-            // 100の位 (ch[5])
-            friendly += images[5] ? (parseInt(images[5].src.split("num_")[1]) * 100) : 0;
-
-            // 10の位 (ch[1])
-            friendly += images[1] ? parseInt(images[1].src.split("num_")[1]) : 0;
-
-            // 1の位 (ch[2])
-            friendly += images[2] ? parseInt(images[2].src.split("num_")[1]) : 0;
-
-            return friendly;
+        // 10000〜100の位を class で判断
+        const img10000 = images.find(img => img.className === "pos3");
+        if (img10000) {
+            friendly += parseInt(img10000.src.split("num_")[1]) * 10000;
         }
+
+        const img1000 = images.find(img => img.className === "pos02");
+        if (img1000) {
+            friendly += parseInt(img1000.src.split("num_")[1]) * 1000;
+        }
+
+        const img100 = images.find(img => img.className === "pos1");
+        if (img100) {
+            friendly += parseInt(img100.src.split("num_")[1]) * 100;
+        }
+
+        // 10の位 (ch[1])
+        if (images[1]) {
+            friendly += parseInt(images[1].src.split("num_")[1]) * 10;
+        }
+
+        // 1の位 (ch[2])
+        if (images[2]) {
+            friendly += parseInt(images[2].src.split("num_")[1]);
+        }
+
+        return friendly;
+    }
+
+
 
         async function fetchCharacterNameAndFriendly(idx) {
             const url = `${baseUrl}?idx=${idx}&rankingType=${rankingType}`;
