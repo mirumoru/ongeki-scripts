@@ -6,41 +6,38 @@
 
     (async () => {
         const baseUrl = "https://ongeki-net.com/ongeki-mobile/ranking/intimate/";
-        const characterIds = 1001; // 柚子固定
+        const characterIds = Array.from({ length: 17 }, (_, i) => 1000 + i); // 1000 から 1016 まで
         const rankingType = 99;
 
-        // 親密度画像解析関数
+        // 統合版 親密度画像解析関数
         function parseFriendlyImages(images) {
             let friendly = 0;
 
-            // 10000の位 (img.pos3)
+            const extractVal = img => {
+                const match = img.src.match(/num[_\s]?(\d+)\.png/);
+                return match ? parseInt(match[1], 10) : 0;
+            };
+
             const pos3 = images.find(img => img.classList.contains("pos3"));
-            if (pos3) {
-                const match = pos3.src.match(/num_(\d+)\.png/);
-                if (match) friendly += parseInt(match[1]) * 10000;
-            }
-
-            // 1000の位 (img.pos02)
             const pos02 = images.find(img => img.classList.contains("pos02"));
-            if (pos02) {
-                const match = pos02.src.match(/num_(\d+)\.png/);
-                if (match) friendly += parseInt(match[1]) * 1000;
-            }
-
-            // 100の位 (img.pos1)
             const pos1 = images.find(img => img.classList.contains("pos1"));
-            if (pos1) {
-                const match = pos1.src.match(/num_(\d+)\.png/);
-                if (match) friendly += parseInt(match[1]) * 100;
-            }
 
-            // 10の位と1の位（classなしの通常数字画像）
-            const numberImages = images.filter(img => !img.className.includes("pos") && img.src.includes("num_"));
-            if (numberImages.length >= 2) {
-                const match10 = numberImages[numberImages.length - 2].src.match(/num_(\d+)\.png/);
-                const match1 = numberImages[numberImages.length - 1].src.match(/num_(\d+)\.png/);
-                if (match10) friendly += parseInt(match10[1]) * 10;
-                if (match1) friendly += parseInt(match1[1]);
+            if (pos3 || pos02 || pos1) {
+                if (pos3) friendly += extractVal(pos3) * 1000;
+                if (pos02) friendly += extractVal(pos02) * 1000;
+                if (pos1) friendly += extractVal(pos1) * 100;
+
+                const numberImages = images.filter(img => !img.className.includes("pos") && img.src.includes("num_"));
+                if (numberImages.length >= 2) {
+                    const val10 = extractVal(numberImages[numberImages.length - 2]);
+                    const val1 = extractVal(numberImages[numberImages.length - 1]);
+                    friendly += val10 + val1;
+                }
+            } else {
+                friendly += images[4] ? extractVal(images[4]) * 100 : 0;
+                friendly += images[5] ? extractVal(images[5]) * 100 : 0;
+                friendly += images[1] ? extractVal(images[1]) : 0;
+                friendly += images[2] ? extractVal(images[2]) : 0;
             }
 
             return friendly;
@@ -55,13 +52,12 @@
 
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, "text/html");
-
                 const characterElement = doc.querySelector(".m_5.f_15.ranking_kind_name");
                 const playerNameElement = doc.querySelector(".ranking_inner_table.f_14 tbody tr td.t_l");
                 const playerName = playerNameElement ? playerNameElement.innerText.trim() : "プレイヤー名不明";
 
-                const deluxeContainer = doc.querySelector('.character_friendly_deluxe_container');
                 let friendlyScore = 0;
+                const deluxeContainer = doc.querySelector('.character_friendly_deluxe_container');
                 if (deluxeContainer) {
                     const images = Array.from(deluxeContainer.querySelectorAll('img'));
                     friendlyScore = parseFriendlyImages(images);
@@ -75,7 +71,92 @@
             }
         }
 
-        const result = await fetchCharacterNameAndFriendly(characterIds);
-        alert(`キャラ: ${result.characterName}\nプレイヤー: ${result.playerName}\n親密度: ${result.friendlyScore}`);
+        const characterData = await Promise.all(characterIds.map(fetchCharacterNameAndFriendly));
+
+        // 別タブでキャラクター名、プレイヤー名、親密度を表示
+        const newTab = window.open("", "_blank");
+        if (newTab) {
+            newTab.document.write("<html><head><title>各キャラクター親密度全国1位一覧表</title>");
+            newTab.document.write("<style>");
+            newTab.document.write(`
+                body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+                h2 { color: #333; }
+                table { width: 80%; margin: 20px auto; border-collapse: collapse; }
+                th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+                th { background-color: #f2f2f2; }
+                .highlight { font-weight: bold; color: #007BFF; }
+                .success { font-weight: bold; color: #28a745; }
+                button, input { padding: 10px; font-size: 16px; margin-top: 10px; }
+                input { width: 50px; text-align: center; }
+                @media (max-width: 768px) {
+                    table { width: 100%; }
+                    th, td { padding: 8px; }
+                    button, input { font-size: 14px; }
+                }
+            `);
+            newTab.document.write("</style>");
+            newTab.document.write("</head><body>");
+            newTab.document.write("<h2>各キャラクター親密度全国1位一覧表</h2>");
+            newTab.document.write("<div><button id='sortDefault'>デフォルト順</button> <button id='sortHigh'>高い順</button> <button id='sortLow'>低い順</button></div>");
+            newTab.document.write("<table id='rankingTable'>");
+            newTab.document.write("<thead><tr><th>キャラクター名</th><th>プレイヤー名</th><th>親密度</th></tr></thead>");
+            newTab.document.write("<tbody>");
+
+            // デフォルト順でテーブルを表示
+            characterData.forEach(({ characterName, playerName, friendlyScore }) => {
+                newTab.document.write(`<tr data-score='${friendlyScore}'>
+                    <td>${characterName}</td>
+                    <td>${playerName}</td>
+                    <td>${friendlyScore}</td>
+                </tr>`);
+            });
+
+            newTab.document.write("</tbody>");
+            newTab.document.write("</table>");
+            newTab.document.write("</body></html>");
+            newTab.document.close();
+
+            // 並び替えの処理
+            newTab.document.getElementById('sortDefault').addEventListener('click', function() {
+                sortRanking(newTab, characterData, 'default');
+            });
+            newTab.document.getElementById('sortHigh').addEventListener('click', function() {
+                sortRanking(newTab, characterData, 'high');
+            });
+            newTab.document.getElementById('sortLow').addEventListener('click', function() {
+                sortRanking(newTab, characterData, 'low');
+            });
+        } else {
+            alert("ポップアップがブロックされている可能性があります。設定を確認してください。");
+        }
+
+        // 並べ替え関数
+        function sortRanking(tab, data, order) {
+            let sortedData;
+
+            if (order === 'default') {
+                sortedData = data; // デフォルト順 (元の順序)
+            } else if (order === 'high') {
+                sortedData = [...data].sort((a, b) => b.friendlyScore - a.friendlyScore); // 親密度が高い順
+            } else if (order === 'low') {
+                sortedData = [...data].sort((a, b) => a.friendlyScore - b.friendlyScore); // 親密度が低い順
+            }
+
+            // テーブルをクリア
+            const rankingTable = tab.document.getElementById('rankingTable').getElementsByTagName('tbody')[0];
+            rankingTable.innerHTML = '';
+
+            // ボタン部分を再描画せずに、並び替え後のデータを再表示
+            sortedData.forEach(({ characterName, playerName, friendlyScore }) => {
+                const row = tab.document.createElement('tr');
+                row.setAttribute('data-score', friendlyScore);
+                row.innerHTML = `
+                    <td>${characterName}</td>
+                    <td>${playerName}</td>
+                    <td>${friendlyScore}</td>
+                `;
+                rankingTable.appendChild(row);
+            });
+        }
     })();
 })();
