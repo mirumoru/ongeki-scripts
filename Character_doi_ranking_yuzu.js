@@ -9,7 +9,7 @@
         const characterIds = Array.from({ length: 17 }, (_, i) => 1000 + i); // 1000 から 1016 まで
         const rankingType = 99;
 
-        // 統合版 親密度画像解析関数
+        // 親密度画像URL解析関数
         function parseFriendlyImages(images) {
             let friendly = 0;
 
@@ -71,64 +71,81 @@
             }
         }
 
-        const characterData = await Promise.all(characterIds.map(fetchCharacterNameAndFriendly));
+const characterData = await Promise.all(characterIds.map(fetchCharacterNameAndFriendly));
 
-        // 別タブでキャラクター名、プレイヤー名、親密度を表示
-        const newTab = window.open("", "_blank");
-        if (newTab) {
-            newTab.document.write("<html><head><title>各キャラクター親密度全国1位一覧表</title>");
-            newTab.document.write("<style>");
-            newTab.document.write(`
-                body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-                h2 { color: #333; }
-                table { width: 80%; margin: 20px auto; border-collapse: collapse; }
-                th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-                th { background-color: #f2f2f2; }
-                .highlight { font-weight: bold; color: #007BFF; }
-                .success { font-weight: bold; color: #28a745; }
-                button, input { padding: 10px; font-size: 16px; margin-top: 10px; }
-                input { width: 50px; text-align: center; }
-                @media (max-width: 768px) {
-                    table { width: 100%; }
-                    th, td { padding: 8px; }
-                    button, input { font-size: 14px; }
-                }
-            `);
-            newTab.document.write("</style>");
-            newTab.document.write("</head><body>");
-            newTab.document.write("<h2>各キャラクター親密度全国1位一覧表</h2>");
-            newTab.document.write("<div><button id='sortDefault'>デフォルト順</button> <button id='sortHigh'>高い順</button> <button id='sortLow'>低い順</button></div>");
-            newTab.document.write("<table id='rankingTable'>");
-            newTab.document.write("<thead><tr><th>キャラクター名</th><th>プレイヤー名</th><th>親密度</th></tr></thead>");
-            newTab.document.write("<tbody>");
+// 高い順でランキングを付けた配列を作成
+const rankedData = [...characterData]
+    .sort((a, b) => b.friendlyScore - a.friendlyScore)
+    .map((item, index) => ({ ...item, rank: index + 1 }));
 
-            // デフォルト順でテーブルを表示
-            characterData.forEach(({ characterName, playerName, friendlyScore }) => {
-                newTab.document.write(`<tr data-score='${friendlyScore}'>
-                    <td>${characterName}</td>
-                    <td>${playerName}</td>
-                    <td>${friendlyScore}</td>
-                </tr>`);
-            });
+// 別タブで表示
+const newTab = window.open("", "_blank");
+if (newTab) {
+    newTab.document.write("<html><head><title>各キャラクター親密度全国1位一覧表</title>");
+    newTab.document.write("<style> ... </style>"); // 省略可
+    newTab.document.write("</head><body>");
+    newTab.document.write("<h2>各キャラクター親密度全国1位一覧表</h2>");
+    newTab.document.write("<div><button id='sortDefault'>デフォルト順</button> <button id='sortHigh'>高い順</button> <button id='sortLow'>低い順</button></div>");
+    newTab.document.write("<table id='rankingTable'>");
+    newTab.document.write("<thead><tr><th>順位</th><th>キャラクター名</th><th>プレイヤー名</th><th>親密度</th></tr></thead>");
+    newTab.document.write("<tbody>");
 
-            newTab.document.write("</tbody>");
-            newTab.document.write("</table>");
-            newTab.document.write("</body></html>");
-            newTab.document.close();
+    rankedData.forEach(({ rank, characterName, playerName, friendlyScore }) => {
+        newTab.document.write(`<tr data-score='${friendlyScore}'>
+            <td>${rank}</td>
+            <td>${characterName}</td>
+            <td>${playerName}</td>
+            <td>${friendlyScore}</td>
+        </tr>`);
+    });
 
-            // 並び替えの処理
-            newTab.document.getElementById('sortDefault').addEventListener('click', function() {
-                sortRanking(newTab, characterData, 'default');
-            });
-            newTab.document.getElementById('sortHigh').addEventListener('click', function() {
-                sortRanking(newTab, characterData, 'high');
-            });
-            newTab.document.getElementById('sortLow').addEventListener('click', function() {
-                sortRanking(newTab, characterData, 'low');
-            });
-        } else {
-            alert("ポップアップがブロックされている可能性があります。設定を確認してください。");
+    newTab.document.write("</tbody>");
+    newTab.document.write("</table>");
+    newTab.document.write("</body></html>");
+    newTab.document.close();
+
+    // 並べ替えイベント
+    newTab.document.getElementById('sortDefault').addEventListener('click', function () {
+        sortRanking(newTab, characterData, 'default');
+    });
+    newTab.document.getElementById('sortHigh').addEventListener('click', function () {
+        sortRanking(newTab, characterData, 'high');
+    });
+    newTab.document.getElementById('sortLow').addEventListener('click', function () {
+        sortRanking(newTab, characterData, 'low');
+    });
+
+    function sortRanking(tab, data, order) {
+        let sortedData;
+        if (order === 'default') {
+            sortedData = data.map((d, i) => ({ ...d, rank: i + 1 }));
+        } else if (order === 'high') {
+            sortedData = [...data].sort((a, b) => b.friendlyScore - a.friendlyScore)
+                                .map((d, i) => ({ ...d, rank: i + 1 }));
+        } else if (order === 'low') {
+            sortedData = [...data].sort((a, b) => a.friendlyScore - b.friendlyScore)
+                                .map((d, i) => ({ ...d, rank: i + 1 }));
         }
+
+        const rankingTable = tab.document.getElementById('rankingTable').getElementsByTagName('tbody')[0];
+        rankingTable.innerHTML = '';
+
+        sortedData.forEach(({ rank, characterName, playerName, friendlyScore }) => {
+            const row = tab.document.createElement('tr');
+            row.setAttribute('data-score', friendlyScore);
+            row.innerHTML = `
+                <td>${rank}</td>
+                <td>${characterName}</td>
+                <td>${playerName}</td>
+                <td>${friendlyScore}</td>
+            `;
+            rankingTable.appendChild(row);
+        });
+    }
+} else {
+    alert("ポップアップがブロックされている可能性があります。設定を確認してください。");
+}
+
 
         // 並べ替え関数
         function sortRanking(tab, data, order) {
