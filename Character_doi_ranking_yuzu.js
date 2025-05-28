@@ -14,36 +14,35 @@
             let friendly = 0;
 
             // 10000の位 (img.pos3)
-            const pos3 = images.find(img => img.className === "pos3");
+            const pos3 = images.find(img => img.classList.contains("pos3"));
             if (pos3) {
                 const match = pos3.src.match(/num_(\d+)\.png/);
                 if (match) friendly += parseInt(match[1]) * 10000;
             }
 
             // 1000の位 (img.pos02)
-            const pos02 = images.find(img => img.className === "pos02");
+            const pos02 = images.find(img => img.classList.contains("pos02"));
             if (pos02) {
                 const match = pos02.src.match(/num_(\d+)\.png/);
                 if (match) friendly += parseInt(match[1]) * 1000;
             }
 
             // 100の位 (img.pos1)
-            const pos1 = images.find(img => img.className === "pos1");
+            const pos1 = images.find(img => img.classList.contains("pos1"));
             if (pos1) {
                 const match = pos1.src.match(/num_(\d+)\.png/);
                 if (match) friendly += parseInt(match[1]) * 100;
             }
 
-            // 10の位と1の位（classがpos*を含まないimg）
-            const numberImages = images.filter(img =>
-                (!img.className || !img.className.match(/^pos/)) && img.src.includes("num_")
-            );
+            // 10の位と1の位（classなしの通常数字画像）
+            const numberImages = images.filter(img => !img.className.includes("pos") && img.src.includes("num_"));
             if (numberImages.length >= 2) {
                 const match10 = numberImages[numberImages.length - 2].src.match(/num_(\d+)\.png/);
                 const match1 = numberImages[numberImages.length - 1].src.match(/num_(\d+)\.png/);
                 if (match10) friendly += parseInt(match10[1]) * 10;
                 if (match1) friendly += parseInt(match1[1]);
             }
+
             return friendly;
         }
 
