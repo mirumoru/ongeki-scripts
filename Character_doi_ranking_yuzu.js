@@ -5,9 +5,10 @@
     }
 
     (async () => {
-        const baseUrl = "https://ongeki-net.com/ongeki-mobile/ranking/intimate/";
-        const characterIds = Array.from({ length: 17 }, (_, i) => 1000 + i); // 1000 から 1016 まで
-        const rankingType = 99;
+        const fixedUrl = "https://ongeki-net.com/ongeki-mobile/ranking/intimate/?idx=1001&rankingType=99";
+        //const characterIds = Array.from({ length: 17 }, (_, i) => 1000 + i); // 1000 から 1016 まで
+        //const rankingType = 99;
+        
 
         // 親密度画像解析関数
 function parseFriendlyImages(images) {
