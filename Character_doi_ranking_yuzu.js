@@ -34,14 +34,17 @@
                 if (match) friendly += parseInt(match[1]) * 100;
             }
 
-            // 10の位と1の位（classなしの通常数字画像）
-            const numberImages = images.filter(img => !img.className.includes("pos") && img.src.includes("num_"));
+            // 10の位と1の位（classが存在しない、またはpos*が含まれない画像のみ対象）
+            const numberImages = images.filter(img =>
+                (!img.className || !img.className.match(/^pos/)) && img.src.includes("num_")
+            );
             if (numberImages.length >= 2) {
                 const match10 = numberImages[numberImages.length - 2].src.match(/num_(\d+)\.png/);
                 const match1 = numberImages[numberImages.length - 1].src.match(/num_(\d+)\.png/);
                 if (match10) friendly += parseInt(match10[1]) * 10;
                 if (match1) friendly += parseInt(match1[1]);
             }
+
 
             return friendly;
         }
