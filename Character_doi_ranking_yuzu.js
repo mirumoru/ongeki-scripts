@@ -104,7 +104,7 @@ const rankedData = [...characterData]
             newTab.document.write("<h2>各キャラクター親密度全国1位一覧表</h2>");
             newTab.document.write("<div><button id='sortDefault'>デフォルト順</button> <button id='sortHigh'>高い順</button> <button id='sortLow'>低い順</button></div>");
             newTab.document.write("<table id='rankingTable'>");
-            newTab.document.write("<thead><tr><th>順位</th><th>キャラクター名</th><th>プレイヤー名</th><th>親密度</th></tr></thead>");
+            newTab.document.write("<thead><tr><th>順位 / 順番</th><th>キャラクター名</th><th>プレイヤー名</th><th>親密度</th></tr></thead>");
             newTab.document.write("<tbody>");
 
     rankedData.forEach(({ rank, characterName, playerName, friendlyScore }) => {
