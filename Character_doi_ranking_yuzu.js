@@ -5,9 +5,9 @@
     }
 
     (async () => {
-        const fixedUrl = "https://ongeki-net.com/ongeki-mobile/ranking/intimate/?idx=1001&rankingType=99";
-        const characterIds = "https://ongeki-net.com/ongeki-mobile/ranking/intimate/?idx=1001&rankingType=99";
-        //const rankingType = 99;
+        const baseUrl = "https://ongeki-net.com/ongeki-mobile/ranking/intimate/";
+        const characterIds = 1001; // 柚子固定
+        const rankingType = 99;
         
 
         // 親密度画像解析関数
@@ -30,7 +30,7 @@
         }
 
         async function fetchCharacterNameAndFriendly(idx) {
-            const url = `https://ongeki-net.com/ongeki-mobile/ranking/intimate/?idx=1001&rankingType=99`;
+            const url = `${baseUrl}?idx=${idx}&rankingType=${rankingType}`;
             try {
                 const response = await fetch(url);
                 if (!response.ok) throw new Error("Failed to fetch data");
