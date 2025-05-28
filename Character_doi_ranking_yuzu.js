@@ -78,17 +78,34 @@ const rankedData = [...characterData]
     .sort((a, b) => b.friendlyScore - a.friendlyScore)
     .map((item, index) => ({ ...item, rank: index + 1 }));
 
-// 別タブで表示
-const newTab = window.open("", "_blank");
-if (newTab) {
-    newTab.document.write("<html><head><title>各キャラクター親密度全国1位一覧表</title>");
-    newTab.document.write("<style> ... </style>"); // 省略可
-    newTab.document.write("</head><body>");
-    newTab.document.write("<h2>各キャラクター親密度全国1位一覧表</h2>");
-    newTab.document.write("<div><button id='sortDefault'>デフォルト順</button> <button id='sortHigh'>高い順</button> <button id='sortLow'>低い順</button></div>");
-    newTab.document.write("<table id='rankingTable'>");
-    newTab.document.write("<thead><tr><th>順位</th><th>キャラクター名</th><th>プレイヤー名</th><th>親密度</th></tr></thead>");
-    newTab.document.write("<tbody>");
+// 別タブでキャラクター名、プレイヤー名、親密度を表示
+        const newTab = window.open("", "_blank");
+        if (newTab) {
+            newTab.document.write("<html><head><title>各キャラクター親密度全国1位一覧表</title>");
+            newTab.document.write("<style>");
+            newTab.document.write(`
+                body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+                h2 { color: #333; }
+                table { width: 80%; margin: 20px auto; border-collapse: collapse; }
+                th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+                th { background-color: #f2f2f2; }
+                .highlight { font-weight: bold; color: #007BFF; }
+                .success { font-weight: bold; color: #28a745; }
+                button, input { padding: 10px; font-size: 16px; margin-top: 10px; }
+                input { width: 50px; text-align: center; }
+                @media (max-width: 768px) {
+                    table { width: 100%; }
+                    th, td { padding: 8px; }
+                    button, input { font-size: 14px; }
+                }
+            `);
+            newTab.document.write("</style>");
+            newTab.document.write("</head><body>");
+            newTab.document.write("<h2>各キャラクター親密度全国1位一覧表</h2>");
+            newTab.document.write("<div><button id='sortDefault'>デフォルト順</button> <button id='sortHigh'>高い順</button> <button id='sortLow'>低い順</button></div>");
+            newTab.document.write("<table id='rankingTable'>");
+            newTab.document.write("<thead><tr><th>順位</th><th>キャラクター名</th><th>プレイヤー名</th><th>親密度</th></tr></thead>");
+            newTab.document.write("<tbody>");
 
     rankedData.forEach(({ rank, characterName, playerName, friendlyScore }) => {
         newTab.document.write(`<tr data-score='${friendlyScore}'>
