@@ -10,23 +10,44 @@
         const rankingType = 99;
 
         // 親密度画像解析関数
-        function parseFriendlyImages(images) {
-            let friendly = 0;
+function parseFriendlyImages(images) {
+    let friendly = 0;
 
-            // 1000の位 (ch[4])
-            friendly += images[4] ? (parseInt(images[4].src.split("num_")[1]) * 100) : 0;
+    // クラスから高桁を取得
+    const img10000 = images.find(img => img.className === "pos3");
+    if (img10000) {
+        friendly += extractDigit(img10000) * 10000;
+    }
 
-            // 100の位 (ch[5])
-            friendly += images[5] ? (parseInt(images[5].src.split("num_")[1]) * 100) : 0;
+    const img1000 = images.find(img => img.className === "pos02");
+    if (img1000) {
+        friendly += extractDigit(img1000) * 1000;
+    }
 
-            // 10の位 (ch[1])
-            friendly += images[1] ? parseInt(images[1].src.split("num_")[1]) : 0;
+    const img100 = images.find(img => img.className === "pos1");
+    if (img100) {
+        friendly += extractDigit(img100) * 100;
+    }
 
-            // 1の位 (ch[2])
-            friendly += images[2] ? parseInt(images[2].src.split("num_")[1]) : 0;
+    // 10の位と1の位は class によらず、末尾2つの画像から取得
+    // 数字画像が高桁のものを含めて並んでいる前提で、末尾2つが10と1の位
+    const digitImages = images.filter(img => img.src.includes("num_"));
+    const len = digitImages.length;
 
-            return friendly;
-        }
+    if (len >= 2) {
+        friendly += extractDigit(digitImages[len - 2]) * 10; // 10の位
+        friendly += extractDigit(digitImages[len - 1]);      // 1の位
+    }
+
+    return friendly;
+}
+
+// 補助関数：画像URLから数値を抽出
+function extractDigit(img) {
+    const match = img.src.match(/num_(\d)\.png/);
+    return match ? parseInt(match[1], 10) : 0;
+}
+
 
         async function fetchCharacterNameAndFriendly(idx) {
             const url = `${baseUrl}?idx=${idx}&rankingType=${rankingType}`;
