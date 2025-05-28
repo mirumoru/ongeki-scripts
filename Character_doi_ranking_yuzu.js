@@ -164,10 +164,11 @@ if (newTab) {
             rankingTable.innerHTML = '';
 
             // ボタン部分を再描画せずに、並び替え後のデータを再表示
-            sortedData.forEach(({ characterName, playerName, friendlyScore }) => {
+            sortedData.forEach(({ rank, characterName, playerName, friendlyScore }) => {
                 const row = tab.document.createElement('tr');
                 row.setAttribute('data-score', friendlyScore);
                 row.innerHTML = `
+                    <td>${rank}</td>
                     <td>${characterName}</td>
                     <td>${playerName}</td>
                     <td>${friendlyScore}</td>
