@@ -6,7 +6,7 @@
 
     (async () => {
         const fixedUrl = "https://ongeki-net.com/ongeki-mobile/ranking/intimate/?idx=1001&rankingType=99";
-        //const characterIds = Array.from({ length: 17 }, (_, i) => 1000 + i); // 1000 から 1016 まで
+        const characterIds = "https://ongeki-net.com/ongeki-mobile/ranking/intimate/?idx=1001&rankingType=99";
         //const rankingType = 99;
         
 
@@ -30,7 +30,7 @@
         }
 
         async function fetchCharacterNameAndFriendly(idx) {
-            const url = `${baseUrl}`;
+            const url = `https://ongeki-net.com/ongeki-mobile/ranking/intimate/?idx=1001&rankingType=99`;
             try {
                 const response = await fetch(url);
                 if (!response.ok) throw new Error("Failed to fetch data");
