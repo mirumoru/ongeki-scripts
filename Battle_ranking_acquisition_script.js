@@ -80,7 +80,7 @@
             // 順位の画像を複数含む場合があるのですべて取得
             const rankImgs = cells[0].querySelectorAll('img');
 
-            // プレイヤー名、キャラクター画像、スコアを取得
+            // プレイヤー名、称号画像、スコアを取得
             const name = cells[2]?.textContent.trim();
             const characterImg = cells[3]?.querySelector('img')?.getAttribute('src') ?? '';
             const score = cells[4]?.textContent.trim();
