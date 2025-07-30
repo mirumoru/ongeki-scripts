@@ -129,6 +129,7 @@
                     .my-info { margin-bottom: 1em; padding: 10px; border: 1px solid #aaa; background: #f9f9f9; }
                     .my-info-title { font-weight: bold; margin-bottom: 5px; }
                     .ranking-title { margin-bottom: 1em; padding: 10px; border: 1px solid #ddd; background: #fffbe6; }
+                    .v_m { vertical-align:middle;}
                     .download-btn { margin-top: 2em; display: flex; justify-content: center; }
                     button { font-size: 16px; padding: 10px 20px; cursor: pointer; }
                 </style>
