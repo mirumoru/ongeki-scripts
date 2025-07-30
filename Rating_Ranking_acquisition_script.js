@@ -184,7 +184,7 @@
                         const url = URL.createObjectURL(blob);
                         const a = document.createElement('a');
                         a.href = url;
-                        a.download = 'ongeki_ranking_${NowDate}_${typeNames[R_Type.toString()]}.html';
+                        a.download = 'ongeki_rating_ranking_${NowDate}_${typeNames[R_Type.toString()]}.html';
                         a.click();
                         URL.revokeObjectURL(url);
                     }
