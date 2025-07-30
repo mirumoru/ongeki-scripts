@@ -24,7 +24,7 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
 別タブにて取得したランキングが表示されます。
 ページの下部にhtmlとして保存するボタンがあります。  
-いろんな店舗や県でバトルランク / ポイントやレーティングのランキングデータを保存したりして旅の記録にしてみてください。
+いろんな県や店舗でバトルランク / ポイントやレーティングのランキングデータを保存したりして旅の記録にしてみてください。
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Battle_ranking_acquisition_script.js";document.body.appendChild(s);})();
 ```
