@@ -24,3 +24,9 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Battle_ranking_acquisition_script.js";document.body.appendChild(s);})();
 ```
+
+## レーティングランキング取得  
+ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
+```
+javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Rating_Ranking_acquisition_script.js";document.body.appendChild(s);})();
+```
