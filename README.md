@@ -10,6 +10,7 @@
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/get_jewels.js";document.body.appendChild(s);})();  
 ```
 ## DDF&DDAジュエル計算
+正確ではない可能性があります。ご注意ください。<br>
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/jewel_calculator.js";document.body.appendChild(s);})();  
 ```
