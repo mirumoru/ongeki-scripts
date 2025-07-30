@@ -19,14 +19,16 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Character_doi_ranking.js";document.body.appendChild(s);})();
 ```
 
-## バトルポイントランキング取得  
+## ランキング取得  
+### バトルポイントランキング  
 ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
+別タブにて取得したランキングが表示されます。
+ページの下部にhtmlとして保存するボタンがあります。  
+いろんな店舗や県でバトルランク / ポイントやレーティングのランキングデータを保存したりして旅の記録にしてみてください。
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Battle_ranking_acquisition_script.js";document.body.appendChild(s);})();
 ```
-
-## レーティングランキング取得  
-ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
+### レーティングランキング  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Rating_Ranking_acquisition_script.js";document.body.appendChild(s);})();
 ```
