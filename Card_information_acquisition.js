@@ -3,13 +3,21 @@
         alert("このスクリプトはオンゲキNETのみ使用できます。");
         return;
     }
-        // 移動用: https://github.com/mirumoru/ongeki-scripts/blob/main/Card_ID_and_name
+
+    alert("カード情報取得に5秒ほどかかります");
+
+    const start = performance.now(); // 処理開始時間
+
+
+    // カードIDと名前表
+    // 移動用: https://github.com/mirumoru/ongeki-scripts/blob/main/Card_ID_and_name
     const jsonURLs = [
-        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1160_mia_kashiwagi.jsonc',
+        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1160_mia_kashiwagi.jsonc', // 美亜のカード情報
+        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1130_arisu_suzushima.jsonc', //有栖のカード情報
 
     ];
 
-// コメントを削除する関数（シンプルなJSONC対応）
+// コメントを削除する関数
 function removeJSONComments(jsoncText) {
     return jsoncText
         .replace(/\/\/.*$/gm, '')              // 行末コメント（//）
@@ -70,7 +78,7 @@ const fetchAllJSON = async () => {
 
                 if (idDiv) {
                     const cardId = idDiv.textContent.trim();
-                    const lockText = isLocked ? " (lock)" : "";
+                    const lockText = isLocked ? " (未開放)" : "";
                     totalCount++;
 
                     if (isLocked) lockedCount++;
@@ -79,7 +87,7 @@ const fetchAllJSON = async () => {
                         htmlContent += `${cardId} → ${cardIdNameMap[cardId]}${lockText}\n`;
                         matchedCount++;
                     } else {
-                        htmlContent += `${cardId}${lockText} → 未登録のカード\n`;
+                        htmlContent += `${cardId} → 未登録のカード${lockText}\n`;
                     }
                 }
             });
@@ -89,11 +97,15 @@ const fetchAllJSON = async () => {
         }
     }
 
+    const end = performance.now();
+    const seconds = ((end - start) / 1000).toFixed(2); // 秒に変換して小数第2位まで
+
     // 集計結果の追加
     htmlContent += `\n取得したカード数: ${totalCount}枚\n`;
     htmlContent += `登録済カード数: ${matchedCount}枚\n`;
     htmlContent += `未登録カード数: ${totalCount - matchedCount}枚\n`;
     htmlContent += `ロックされているカード数: ${lockedCount}枚\n`;
+    htmlContent += `処理時間: ${seconds} 秒\n`;
     htmlContent += `</pre>`;
 
     // 新しいタブに表示
