@@ -82,7 +82,7 @@ const fetchAllJSON = async () => {
 
                 if (idDiv) {
                     const cardId = idDiv.textContent.trim();
-                    const lockText = isLocked ? " (未開放)" : "";
+                    const lockText = isLocked ? " (未獲得)" : "";
                     totalCount++;
 
                     if (isLocked) lockedCount++;
