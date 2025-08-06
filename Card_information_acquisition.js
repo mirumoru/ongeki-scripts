@@ -16,6 +16,7 @@
         'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1130_arisu_suzushima.jsonc', //有栖のカード情報
 
         // マーチングポケッツ
+        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1140_chinatsu_hinata.jsonc',// 千夏のカード情報
         'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1160_mia_kashiwagi.jsonc', // 美亜のカード情報
         'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1150_tsumugi_shinonome.jsonc', //つむぎのカード情報
 
