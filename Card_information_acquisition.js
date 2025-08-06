@@ -49,16 +49,44 @@ const fetchAllJSON = async () => {
     return idNameMap;
 };
 
+
     let cardIdNameMap = {};
     try {
         cardIdNameMap = await fetchAllJSON();
     } catch (err) {
-        alert("カード名JSONの取得に失敗しました。コンソールを確認してください。");
+        alert("キャラカードIDとカード名リストの取得に失敗しました。");
         return;
     }
 
+    // Special Menu取得
+async function fetchSpecialMenuMap(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`SpecialMenuが読み込みできませんでした。`);
+        return await response.json();
+    } catch (err) {
+        console.error("SpecialMenuの読み込みでエラーが発生しました:", err);
+        return {};
+    }
+}
+
+// ここではJSONを使用しています間違いに注意！
+// Special Menu用jsonURL
+const specialMenuMapURL = 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/special_menu.json';
+
+// 読み込み
+let specialMenuImageMap = {};
+try {
+    specialMenuImageMap = await fetchSpecialMenuMap(specialMenuMapURL);
+} catch (err) {
+    alert("Special Menuのリスト取得に失敗しました。");
+    return;
+}
+
     const BaseURL = "https://ongeki-net.com/ongeki-mobile/card/pages/?idx=";
     const characterIds = Array.from({ length: 20 }, (_, i) => i + 1);
+
+    let specialMenuCards = [];  // Special Menu一覧を格納
 
     let matchedCount = 0;
     let totalCount = 0;
@@ -84,6 +112,23 @@ const fetchAllJSON = async () => {
                 if (idDiv) {
                     const cardId = idDiv.textContent.trim();
                     const lockText = isLocked ? " (未獲得)" : "";
+
+                    if (cardId === "Special Menu") {
+
+                        // block内の指定されたクラスにあるimgを探す
+                        const imgElem = block.querySelector('.t_c.border_block.m_5.p_5 img');
+
+                        if (imgElem) {
+                            const src = imgElem.getAttribute('src') || '';
+                            const filename = src.split('/').pop();
+                            const cardName = specialMenuImageMap[filename] || `不明なカード (${filename})`;
+                            specialMenuCards.push(`${cardName}${lockText}`);
+                        } else{
+                            specialMenuCards.push(`画像情報なし${lockText}`);
+                        }
+                        return; // IDがないので以降の処理はスキップ
+                    }
+
                     totalCount++;
 
                     if (isLocked) lockedCount++;
@@ -104,6 +149,15 @@ const fetchAllJSON = async () => {
 
     const end = performance.now();
     const seconds = ((end - start) / 1000).toFixed(2); // 秒に変換して小数第2位まで
+
+    // Special Menu一覧の追加
+    if (specialMenuCards.length > 0) {
+        htmlContent += `\n--- Special Menuカード ---\n`;
+        specialMenuCards.forEach((entry) => {
+            htmlContent += `${entry}\n`;
+        });
+    }
+
 
     // 集計結果の追加
     htmlContent += `\n取得したカード数: ${totalCount}枚\n`;
