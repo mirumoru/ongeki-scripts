@@ -9,16 +9,19 @@
     const start = performance.now(); // 処理開始時間
 
 
-    // カードIDと名前表
+    // カードIDとカード名表
     // 移動用: https://github.com/mirumoru/ongeki-scripts/blob/main/Card_ID_and_name
     const jsonURLs = [
+        // TRIEDGE
+        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1060_tsubaki_aihara.jsonc',// 椿のカード情報
+
         // R.B.P.
-        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1130_arisu_suzushima.jsonc', //有栖のカード情報
+        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1130_arisu_suzushima.jsonc', // 有栖のカード情報
 
         // マーチングポケッツ
         'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1140_chinatsu_hinata.jsonc',// 千夏のカード情報
         'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1160_mia_kashiwagi.jsonc', // 美亜のカード情報
-        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1150_tsumugi_shinonome.jsonc', //つむぎのカード情報
+        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1150_tsumugi_shinonome.jsonc', // つむぎのカード情報
 
     ];
 
@@ -126,16 +129,15 @@ try {
                         } else{
                             specialMenuCards.push(`画像情報なし${lockText}`);
                         }
-                        return; // IDがないので以降の処理はスキップ
+                        return; // Special Menuはここで処理終了
                     }
 
                     totalCount++;
 
-                    if (isLocked) lockedCount++;
-
                     if (cardIdNameMap[cardId]) {
                         htmlContent += `${cardId} → ${cardIdNameMap[cardId]}${lockText}\n`;
                         matchedCount++;
+                        characterCardCountMap[idx].matched++;
                     } else {
                         htmlContent += `${cardId} → 未登録のカード${lockText}\n`;
                     }
@@ -157,7 +159,6 @@ try {
             htmlContent += `${entry}\n`;
         });
     }
-
 
     // 集計結果の追加
     htmlContent += `\n取得したカード数: ${totalCount}枚\n`;
