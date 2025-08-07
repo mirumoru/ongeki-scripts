@@ -6,6 +6,7 @@
 このスクリプトは個人的に作った非公式ツールです。SEGA様及び関係者様には一切関係ございません。<br>
 
 ## 各章ジュエル表示
+しずくの数も取得するようにしました。<br>
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/get_jewels.js";document.body.appendChild(s);})();  
 ```
@@ -22,11 +23,11 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 ```
 
 ## ランキング取得  
-### バトルポイントランキング  
 ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
 別タブにて取得したランキングが表示されます。
 ページの下部にhtmlとして保存するボタンがあります。  
 いろんな県や店舗でバトルランク / ポイントやレーティングのランキングデータを保存したりして旅の記録にしてみてください。
+### バトルポイントランキング  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Battle_ranking_acquisition_script.js";document.body.appendChild(s);})();
 ```
