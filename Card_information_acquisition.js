@@ -8,89 +8,80 @@
 
     const start = performance.now(); // 処理開始時間
 
-
-    // カードIDとカード名表
-    // 移動用: https://github.com/mirumoru/ongeki-scripts/blob/main/Card_ID_and_name
     const jsonURLs = [
         // TRIEDGE
-        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1060_tsubaki_aihara.jsonc',// 椿のカード情報
+        { name: "藍原 椿", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1060_tsubaki_aihara.jsonc' },
 
         // R.B.P.
-        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1130_arisu_suzushima.jsonc', // 有栖のカード情報
+        { name: "珠洲島 有栖", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1130_arisu_suzushima.jsonc' },
 
         // マーチングポケッツ
-        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1140_chinatsu_hinata.jsonc',// 千夏のカード情報
-        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1160_mia_kashiwagi.jsonc', // 美亜のカード情報
-        'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1150_tsumugi_shinonome.jsonc', // つむぎのカード情報
-
+        { name: "日向 千夏", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1140_chinatsu_hinata.jsonc' },
+        { name: "柏木 美亜", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1160_mia_kashiwagi.jsonc' },
+        { name: "東雲 つむぎ", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1150_tsumugi_shinonome.jsonc' }
     ];
 
-// コメントを削除する関数
-function removeJSONComments(jsoncText) {
-    return jsoncText
-        .replace(/\/\/.*$/gm, '')              // 行末コメント（//）
-        .replace(/\/\*[\s\S]*?\*\//g, '');     // ブロックコメント（/* */）
-}
-
-// 複数のJSONCをまとめて取得し、1つのマップに変換
-const fetchAllJSON = async () => {
-    const idNameMap = {};
-    for (const url of jsonURLs) {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`Failed to load ${url}`);
-            const text = await response.text();               // コメントありのまま取得
-            const cleaned = removeJSONComments(text);         // コメント削除
-            const data = JSON.parse(cleaned);                 // JSONとしてパース
-            for (const item of data) {
-                idNameMap[item.id] = item.name;
-            }
-        } catch (err) {
-            console.error(`Error loading ${url}:`, err);
-        }
+    function removeJSONComments(jsoncText) {
+        return jsoncText
+            .replace(/\/\/.*$/gm, '')
+            .replace(/\/\*[\s\S]*?\*\//g, '');
     }
-    return idNameMap;
-};
 
-
+    let characterCardMap = {};
     let cardIdNameMap = {};
+
+    const fetchAllJSON = async () => {
+        for (const { name, url } of jsonURLs) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`読み込みに失敗しました ${url}`);
+                const text = await response.text();
+                const cleaned = removeJSONComments(text);
+                const data = JSON.parse(cleaned);
+
+                characterCardMap[name] = [];
+
+                for (const item of data) {
+                    cardIdNameMap[item.id] = item.name;
+                    characterCardMap[name].push(item.id);
+                }
+            } catch (err) {
+                console.error(`読み込みに失敗しました ${url}:`, err);
+            }
+        }
+    };
+
     try {
-        cardIdNameMap = await fetchAllJSON();
+        await fetchAllJSON();
     } catch (err) {
         alert("キャラカードIDとカード名リストの取得に失敗しました。");
         return;
     }
 
-    // Special Menu取得
-async function fetchSpecialMenuMap(url) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`SpecialMenuが読み込みできませんでした。`);
-        return await response.json();
-    } catch (err) {
-        console.error("SpecialMenuの読み込みでエラーが発生しました:", err);
-        return {};
+    async function fetchSpecialMenuMap(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`SpecialMenuが読み込みできませんでした。`);
+            return await response.json();
+        } catch (err) {
+            console.error("SpecialMenuの読み込みでエラーが発生しました:", err);
+            return {};
+        }
     }
-}
 
-// ここではJSONを使用しています間違いに注意！
-// Special Menu用jsonURL
-const specialMenuMapURL = 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/special_menu.json';
-
-// 読み込み
-let specialMenuImageMap = {};
-try {
-    specialMenuImageMap = await fetchSpecialMenuMap(specialMenuMapURL);
-} catch (err) {
-    alert("Special Menuのリスト取得に失敗しました。");
-    return;
-}
+    const specialMenuMapURL = 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/special_menu.json';
+    let specialMenuImageMap = {};
+    try {
+        specialMenuImageMap = await fetchSpecialMenuMap(specialMenuMapURL);
+    } catch (err) {
+        alert("Special Menuのリスト取得に失敗しました。");
+        return;
+    }
 
     const BaseURL = "https://ongeki-net.com/ongeki-mobile/card/pages/?idx=";
     const characterIds = Array.from({ length: 20 }, (_, i) => i + 1);
 
-    let specialMenuCards = [];  // Special Menu一覧を格納
-
+    let specialMenuCards = [];
     let matchedCount = 0;
     let totalCount = 0;
     let lockedCount = 0;
@@ -117,19 +108,16 @@ try {
                     const lockText = isLocked ? " (未獲得)" : "";
 
                     if (cardId === "Special Menu") {
-
-                        // block内の指定されたクラスにあるimgを探す
                         const imgElem = block.querySelector('.t_c.border_block.m_5.p_5 img');
-
                         if (imgElem) {
                             const src = imgElem.getAttribute('src') || '';
                             const filename = src.split('/').pop();
                             const cardName = specialMenuImageMap[filename] || `不明なカード (${filename})`;
                             specialMenuCards.push(`${cardName}${lockText}`);
-                        } else{
+                        } else {
                             specialMenuCards.push(`画像情報なし${lockText}`);
                         }
-                        return; // IDがないので以降の処理はスキップ
+                        return;
                     }
 
                     totalCount++;
@@ -151,9 +139,8 @@ try {
     }
 
     const end = performance.now();
-    const seconds = ((end - start) / 1000).toFixed(2); // 秒に変換して小数第2位まで
+    const seconds = ((end - start) / 1000).toFixed(2);
 
-    // Special Menu一覧の追加
     if (specialMenuCards.length > 0) {
         htmlContent += `\n--- Special Menuカード ---\n`;
         specialMenuCards.forEach((entry) => {
@@ -161,8 +148,11 @@ try {
         });
     }
 
+    htmlContent += `\n--- キャラごとの所持カード種類数 ---\n`;
+    for (const [name, idList] of Object.entries(characterCardMap)) {
+        htmlContent += `${name}：${idList.length}枚\n`;
+    }
 
-    // 集計結果の追加
     htmlContent += `\n取得したカード数: ${totalCount}枚\n`;
     htmlContent += `登録済カード数: ${matchedCount}枚\n`;
     htmlContent += `未登録カード数: ${totalCount - matchedCount}枚\n`;
@@ -170,7 +160,6 @@ try {
     htmlContent += `処理時間: ${seconds} 秒\n`;
     htmlContent += `</pre>`;
 
-    // 新しいタブに表示
     const newWindow = window.open();
     if (newWindow) {
         newWindow.document.write(`
@@ -187,6 +176,6 @@ try {
         `);
         newWindow.document.close();
     } else {
-        alert("ポップアップブロックにより新しいタブを開けませんでした。");
+        alert("ポップアップブロックにより新しいタブを開けませんでした。ポップアップを許可してください。");
     }
 })();
