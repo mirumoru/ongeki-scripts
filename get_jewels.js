@@ -6,8 +6,9 @@
 
     const storyBaseURL = "https://ongeki-net.com/ongeki-mobile/record/storyDetail/?story=";
     const memoryBaseURL = "https://ongeki-net.com/ongeki-mobile/record/memoryChapterDetail/?idx=";
+    const shizukuBaseURL = "https://ongeki-net.com/ongeki-mobile/record/";
 
-    const storyIDs = [1, 2, 3, 4, 5]; // ストーリーID一覧
+    const storyIDs = [1, 2, 3, 4, 5];
     const memoryIDs = [
         { id: 70001, name: "Spring Memory" },
         { id: 70002, name: "Summer Memory" },
@@ -17,12 +18,11 @@
         { id: 70099, name: "END CHAPTER" }
     ];
 
-    let results = new Array(storyIDs.length + memoryIDs.length);
+    let results = new Array(storyIDs.length + memoryIDs.length + 1);
     let promises = [];
 
-    // ジュエル情報を取得する関数
     const fetchJewelCount = (url, index, label) => {
-        let promise = fetch(url)
+        let promise = fetch(url, { credentials: 'include' })
             .then(res => res.text())
             .then(html => {
                 const parser = new DOMParser();
@@ -43,28 +43,61 @@
         promises.push(promise);
     };
 
-    // ストーリー取得
+    // ストーリー
     storyIDs.forEach((storyID, index) => {
         fetchJewelCount(storyBaseURL + storyID, index, `ストーリー第${storyID}章`);
     });
 
-    // Memory シリーズ取得
+    // メモリーチャプター
     memoryIDs.forEach((memory, index) => {
         fetchJewelCount(memoryBaseURL + memory.id, storyIDs.length + index, memory.name);
     });
+
+    // しずく数の取得処理
+    const fetchShizukuCount = () => {
+        let index = storyIDs.length + memoryIDs.length;
+        let promise = fetch(shizukuBaseURL, { credentials: 'include' })
+            .then(res => res.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, "text/html");
+                const wrapper = doc.querySelector('.wrapper.main_wrapper.t_c');
+                if (!wrapper) throw new Error("wrapperが見つかりません");
+
+                const storyTitle = wrapper.querySelector('.story_title_block.f_0.f_r');
+                if (!storyTitle) throw new Error("story_title_blockが見つかりません");
+
+                const medalBlock = storyTitle.querySelector('.medal_block.f_l.t_r');
+                if (!medalBlock) throw new Error("medal_blockが見つかりません");
+
+                const shizukuElement = medalBlock.querySelector('.v_m.p_3.f_14.gray');
+                if (shizukuElement) {
+                    results[index] = `しずく: ${shizukuElement.innerText.trim()}`;
+                } else {
+                    results[index] = "しずく: 情報なし";
+                }
+            })
+            .catch(err => {
+                console.error("しずくの取得に失敗:", err);
+                results[index] = "しずく: 取得エラー";
+            });
+
+        promises.push(promise);
+    };
+
+    fetchShizukuCount();
 
     Promise.all(promises).then(() => {
         showPopup(results.join("<br>"));
     });
 
-    // ポップアップ表示関数（スマホ対応）
+    // ポップアップ画面
     function showPopup(content) {
         let existingPopup = document.getElementById("customPopup");
         if (existingPopup) {
             existingPopup.remove();
         }
 
-        // オーバーレイ（背景）
         let overlay = document.createElement("div");
         overlay.id = "popupOverlay";
         overlay.style.position = "fixed";
@@ -76,7 +109,6 @@
         overlay.style.zIndex = "9998";
         overlay.addEventListener("click", reloadPage);
 
-        // ポップアップ本体
         let popup = document.createElement("div");
         popup.id = "customPopup";
         popup.style.position = "fixed";
@@ -92,7 +124,6 @@
         popup.style.textAlign = "center";
         popup.style.overflowY = "auto";
 
-        // スマホ用のレイアウト調整
         if (window.innerWidth <= 480) {
             popup.style.width = "90%";
             popup.style.maxWidth = "400px";
@@ -104,21 +135,18 @@
             popup.style.fontSize = "16px";
         }
 
-        // タイトル
         let title = document.createElement("h2");
         title.innerText = "ジュエル数一覧";
         title.style.margin = "0 0 10px 0";
         title.style.fontSize = "18px";
         title.style.color = "#333";
 
-        // コンテンツ
         let message = document.createElement("div");
         message.innerHTML = content;
         message.style.fontSize = "16px";
         message.style.color = "#555";
         message.style.lineHeight = "1.5";
 
-        // 閉じるボタン
         let closeButton = document.createElement("button");
         closeButton.innerText = "閉じる";
         closeButton.style.marginTop = "15px";
@@ -133,17 +161,14 @@
         closeButton.style.maxWidth = "200px";
         closeButton.addEventListener("click", reloadPage);
 
-        // ポップアップに要素を追加
         popup.appendChild(title);
         popup.appendChild(message);
         popup.appendChild(closeButton);
 
-        // ドキュメントに追加
         document.body.appendChild(overlay);
         document.body.appendChild(popup);
     }
 
-    // ページをリロードする関数
     function reloadPage() {
         location.reload();
     }
