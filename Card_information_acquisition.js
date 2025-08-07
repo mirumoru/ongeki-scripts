@@ -129,15 +129,16 @@ try {
                         } else{
                             specialMenuCards.push(`画像情報なし${lockText}`);
                         }
-                        return; // Special Menuはここで処理終了
+                        return; // IDがないので以降の処理はスキップ
                     }
 
                     totalCount++;
 
+                    if (isLocked) lockedCount++;
+
                     if (cardIdNameMap[cardId]) {
                         htmlContent += `${cardId} → ${cardIdNameMap[cardId]}${lockText}\n`;
                         matchedCount++;
-                        characterCardCountMap[idx].matched++;
                     } else {
                         htmlContent += `${cardId} → 未登録のカード${lockText}\n`;
                     }
@@ -159,6 +160,7 @@ try {
             htmlContent += `${entry}\n`;
         });
     }
+
 
     // 集計結果の追加
     htmlContent += `\n取得したカード数: ${totalCount}枚\n`;
