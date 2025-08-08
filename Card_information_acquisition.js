@@ -153,6 +153,7 @@
         htmlContent += `${name}：${idList.length}枚\n`;
     }
 
+    htmlContent += `\n--- info ---\n`;
     htmlContent += `\n取得したカード数: ${totalCount}枚\n`;
     htmlContent += `登録済カード数: ${matchedCount}枚\n`;
     htmlContent += `未登録カード数: ${totalCount - matchedCount}枚\n`;
