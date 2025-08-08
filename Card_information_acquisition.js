@@ -44,6 +44,7 @@
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    // コメント除去関数
     function removeJSONComments(jsoncText) {
         return jsoncText.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
     }
@@ -51,20 +52,22 @@
     let characterCardMap = {};
     let cardIdNameMap = {};
 
+    // キャラごとのカードIDとカード名を取得・格納する非同期関数
+
     const fetchAllJSON = async () => {
         for (const { name, url } of jsonURLs) {
             try {
                 const response = await fetch(url);
                 if (!response.ok) throw new Error(`読み込みに失敗しました ${url}`);
                 const text = await response.text();
-                const cleaned = removeJSONComments(text);
+                const cleaned = removeJSONComments(text); // JSONC（コメント付きJSON）からコメントを除去
                 const data = JSON.parse(cleaned);
 
-                characterCardMap[name] = [];
+                characterCardMap[name] = []; // キャラクターごとのカードID配列を初期化
 
                 for (const item of data) {
-                    cardIdNameMap[item.id] = item.name;
-                    characterCardMap[name].push(item.id);
+                    cardIdNameMap[item.id] = item.name; // カードIDと名前をマップに登録
+                    characterCardMap[name].push(item.id); // 該当キャラのカードIDを格納
                 }
             } catch (err) {
                 console.error(`読み込みに失敗しました ${url}:`, err);
@@ -79,6 +82,7 @@
         return;
     }
 
+    // 特定のラベルとURLに対してJSONを取得する非同期関数
     async function fetchSpecialMap(url, label) {
         try {
             const response = await fetch(url);
@@ -96,7 +100,7 @@
     const specialMenuImageMap = await fetchSpecialMap(specialMenuMapURL, "Special Menu");
     const specialCardImageMap = await fetchSpecialMap(specialCardMapURL, "Special Card");
 
-    const BaseURL = "https://ongeki-net.com/ongeki-mobile/card/pages/?idx=";
+    const BaseURL = "https://ongeki-net.com/ongeki-mobile/card/pages/?idx="; // カード情報取得先
     const characterIds = Array.from({ length: 20 }, (_, i) => i + 1);
 
     let specialMenuCards = [];
@@ -120,11 +124,11 @@
 
             const cardBlocks = doc.querySelectorAll('.wrapper.main_wrapper.t_c .f_l.col3');
 
-            htmlContent += `--- idx: ${idx} ---\n`;
+            htmlContent += `--- ページ: ${idx} ---\n`;
 
             cardBlocks.forEach((block) => {
-                const idDiv = block.querySelector('.t_c.break.f_11');
-                const isLocked = block.querySelector('.card_lock_img') !== null;
+                const idDiv = block.querySelector('.t_c.break.f_11'); //カードID取得先
+                const isLocked = block.querySelector('.card_lock_img') !== null; // カードが未獲得をどうかを判断
 
                 if (idDiv) {
                     const cardId = idDiv.textContent.trim();
@@ -191,7 +195,7 @@
     htmlContent += `取得したカード数: ${totalCount}枚\n`;
     htmlContent += `登録済カード数: ${matchedCount}枚\n`;
     htmlContent += `未登録カード数: ${totalCount - matchedCount}枚\n`;
-    htmlContent += `ロックされているカード数: ${lockedCount}枚\n`;
+    htmlContent += `未獲得カード数: ${lockedCount}枚\n`;
     htmlContent += `処理時間: ${seconds} 秒\n`;
     htmlContent += `</pre>`;
 
@@ -216,7 +220,7 @@
     }
 
     updateProgress("完了しました！ページを更新します...");
-    await delay(3000);
-    location.reload();
+    await delay(3000); // 遅延3秒
+    location.reload(); // ページのリロード
 
 })();
