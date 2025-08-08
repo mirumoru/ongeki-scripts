@@ -79,30 +79,28 @@
         return;
     }
 
-    async function fetchSpecialMenuMap(url) {
+    async function fetchSpecialMap(url, label) {
         try {
             const response = await fetch(url);
-            if (!response.ok) throw new Error(`SpecialMenuが読み込みできませんでした。`);
+            if (!response.ok) throw new Error(`${label}が読み込みできませんでした。`);
             return await response.json();
         } catch (err) {
-            console.error("SpecialMenuの読み込みでエラーが発生しました:", err);
+            console.error(`${label}の読み込みでエラーが発生しました:`, err);
             return {};
         }
     }
 
     const specialMenuMapURL = 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/special_menu.json';
-    let specialMenuImageMap = {};
-    try {
-        specialMenuImageMap = await fetchSpecialMenuMap(specialMenuMapURL);
-    } catch (err) {
-        alert("Special Menuのリスト取得に失敗しました。");
-        return;
-    }
+    const specialCardMapURL = 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/special_card.json';
+
+    const specialMenuImageMap = await fetchSpecialMap(specialMenuMapURL, "Special Menu");
+    const specialCardImageMap = await fetchSpecialMap(specialCardMapURL, "Special Card");
 
     const BaseURL = "https://ongeki-net.com/ongeki-mobile/card/pages/?idx=";
     const characterIds = Array.from({ length: 20 }, (_, i) => i + 1);
 
     let specialMenuCards = [];
+    let specialCards = [];
     let matchedCount = 0;
     let totalCount = 0;
     let lockedCount = 0;
@@ -134,14 +132,19 @@
 
                     if (cardId === "Special Menu") {
                         const imgElem = block.querySelector('.t_c.border_block.m_5.p_5 img');
-                        if (imgElem) {
-                            const src = imgElem.getAttribute('src') || '';
-                            const filename = src.split('/').pop();
-                            const cardName = specialMenuImageMap[filename] || `不明なカード (${filename})`;
-                            specialMenuCards.push(`${cardName}${lockText}`);
-                        } else {
-                            specialMenuCards.push(`画像情報なし${lockText}`);
-                        }
+                        const src = imgElem?.getAttribute('src') || '';
+                        const filename = src.split('/').pop();
+                        const cardName = specialMenuImageMap[filename] || `不明なカード (${filename})`;
+                        specialMenuCards.push(`${cardName}${lockText}`);
+                        return;
+                    }
+
+                    if (cardId === "[O.N.G.E.K.I.]Special Card") {
+                        const imgElem = block.querySelector('.t_c.border_block.m_5.p_5 img');
+                        const src = imgElem?.getAttribute('src') || '';
+                        const filename = src.split('/').pop();
+                        const cardName = specialCardImageMap[filename] || `不明なカード (${filename})`;
+                        specialCards.push(`${cardName}${lockText}`);
                         return;
                     }
 
@@ -172,6 +175,13 @@
         });
     }
 
+    if (specialCards.length > 0) {
+        htmlContent += `\n--- Special Cardカード ---\n`;
+        specialCards.forEach((entry) => {
+            htmlContent += `${entry}\n`;
+        });
+    }
+
     htmlContent += `\n--- キャラごとの所持カード種類数 ---\n`;
     for (const [name, idList] of Object.entries(characterCardMap)) {
         htmlContent += `${name}：${idList.length}枚\n`;
@@ -185,7 +195,7 @@
     htmlContent += `処理時間: ${seconds} 秒\n`;
     htmlContent += `</pre>`;
 
-    // 別タブを開く処理
+    // 結果を新しいタブで表示
     const newWindow = window.open();
     if (newWindow) {
         newWindow.document.write(`
@@ -205,7 +215,6 @@
         alert("ポップアップブロックにより新しいタブを開けませんでした。ポップアップを許可してください。");
     }
 
-    // モーダルを完了表示にしてからリロード
     updateProgress("完了しました！ページを更新します...");
     await delay(3000);
     location.reload();
