@@ -4,27 +4,48 @@
         return;
     }
 
-    alert("カード情報取得に5秒ほどかかります");
+    alert("カード情報取得に20秒ほどかかります\n連続アクセス防止のため遅延を入れております。");
 
-    const start = performance.now(); // 処理開始時間
+    // モーダル追加
+    const modal = document.createElement("div");
+    modal.style.position = "fixed";
+    modal.style.top = "50%";
+    modal.style.left = "50%";
+    modal.style.transform = "translate(-50%, -50%)";
+    modal.style.background = "rgba(0,0,0,0.9)";
+    modal.style.color = "#fff";
+    modal.style.padding = "20px 40px";
+    modal.style.zIndex = "9999";
+    modal.style.borderRadius = "10px";
+    modal.style.fontSize = "18px";
+    modal.style.textAlign = "center";
+    modal.id = "progressModal";
+    modal.innerText = "開始中...";
+    document.body.appendChild(modal);
+
+    const updateProgress = (text) => {
+        document.getElementById("progressModal").innerText = text;
+    };
+
+    const start = performance.now();
 
     const jsonURLs = [
-        // TRIEDGE
+        { name: "星咲 あかり", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1010_akari_hoshizaki.jsonc' },
+        { name: "藤沢 柚子", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1020_yuzu_fujisawa.jsonc' },
+        { name: "三角 葵", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1020_aoi_misumi.jsonc' },
         { name: "藍原 椿", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1060_tsubaki_aihara.jsonc' },
-
-        // R.B.P.
         { name: "珠洲島 有栖", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1130_arisu_suzushima.jsonc' },
-
-        // マーチングポケッツ
         { name: "日向 千夏", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1140_chinatsu_hinata.jsonc' },
         { name: "柏木 美亜", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1160_mia_kashiwagi.jsonc' },
         { name: "東雲 つむぎ", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1150_tsumugi_shinonome.jsonc' }
     ];
 
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     function removeJSONComments(jsoncText) {
-        return jsoncText
-            .replace(/\/\/.*$/gm, '')
-            .replace(/\/\*[\s\S]*?\*\//g, '');
+        return jsoncText.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
     }
 
     let characterCardMap = {};
@@ -88,7 +109,11 @@
     let htmlContent = `<h2>カード集計結果</h2><pre style="font-size: 14px;">`;
 
     for (const idx of characterIds) {
+        updateProgress(`カード取得中... (${idx}/20)`);
+
         const url = `${BaseURL}${idx}`;
+        await delay(1000); // 遅延1秒
+
         try {
             const response = await fetch(url, { credentials: "include" });
             const html = await response.text();
@@ -121,7 +146,6 @@
                     }
 
                     totalCount++;
-
                     if (isLocked) lockedCount++;
 
                     if (cardIdNameMap[cardId]) {
@@ -154,13 +178,14 @@
     }
 
     htmlContent += `\n--- info ---\n`;
-    htmlContent += `\n取得したカード数: ${totalCount}枚\n`;
+    htmlContent += `取得したカード数: ${totalCount}枚\n`;
     htmlContent += `登録済カード数: ${matchedCount}枚\n`;
     htmlContent += `未登録カード数: ${totalCount - matchedCount}枚\n`;
     htmlContent += `ロックされているカード数: ${lockedCount}枚\n`;
     htmlContent += `処理時間: ${seconds} 秒\n`;
     htmlContent += `</pre>`;
 
+    // 別タブを開く処理
     const newWindow = window.open();
     if (newWindow) {
         newWindow.document.write(`
@@ -179,4 +204,10 @@
     } else {
         alert("ポップアップブロックにより新しいタブを開けませんでした。ポップアップを許可してください。");
     }
+
+    // モーダルを完了表示にしてからリロード
+    updateProgress("完了しました！ページを更新します...");
+    await delay(3000);
+    location.reload();
+
 })();
