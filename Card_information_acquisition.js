@@ -30,11 +30,20 @@
     const start = performance.now();
 
     const jsonURLs = [
+        // ASTERISM
         { name: "星咲 あかり", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1010_akari_hoshizaki.jsonc' },
         { name: "藤沢 柚子", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1020_yuzu_fujisawa.jsonc' },
-        { name: "三角 葵", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1020_aoi_misumi.jsonc' },
+        { name: "三角 葵", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1030_aoi_misumi.jsonc' },
+
+        // ⊿TRiEDGE
+        { name: "高瀬 梨緒", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1040_rio_takase.jsonc' },
+        { name: "結城 莉玖", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1050_riku_yuuki.jsonc' },
         { name: "藍原 椿", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1060_tsubaki_aihara.jsonc' },
+
+        // R.B.P.
         { name: "珠洲島 有栖", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1130_arisu_suzushima.jsonc' },
+
+        // マーチングポケッツ
         { name: "日向 千夏", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1140_chinatsu_hinata.jsonc' },
         { name: "柏木 美亜", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1160_mia_kashiwagi.jsonc' },
         { name: "東雲 つむぎ", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1150_tsumugi_shinonome.jsonc' }
