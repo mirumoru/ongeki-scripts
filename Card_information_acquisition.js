@@ -40,6 +40,10 @@
         { name: "結城 莉玖", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1050_riku_yuuki.jsonc' },
         { name: "藍原 椿", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1060_tsubaki_aihara.jsonc' },
 
+        // bitter flavor
+        { name: "早乙女 彩華", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1080_ayaka_saotome.jsonc' },
+        { name: "桜井 春菜", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1070_haruna_sakurai.jsonc' },
+
         // R.B.P.
         { name: "珠洲島 有栖", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1130_arisu_suzushima.jsonc' },
 
