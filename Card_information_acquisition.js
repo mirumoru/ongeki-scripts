@@ -69,6 +69,9 @@
     let characterCardMap = {};
     let cardIdNameMap = {};
 
+    // キャラ別集計用
+    let characterStats = {};
+
     // キャラごとのカードIDとカード名を取得・格納する非同期関数
 
     const fetchAllJSON = async () => {
@@ -81,6 +84,7 @@
                 const data = JSON.parse(cleaned);
 
                 characterCardMap[name] = []; // キャラクターごとのカードID配列を初期化
+                characterStats[name] = { total: data.length, obtained: 0, locked: 0 };
 
                 for (const item of data) {
                     cardIdNameMap[item.id] = item.name; // カードIDと名前をマップに登録
@@ -170,11 +174,23 @@
                     }
 
                     totalCount++;
+
                     if (isLocked) lockedCount++;
 
                     if (cardIdNameMap[cardId]) {
                         htmlContent += `${cardId} → ${cardIdNameMap[cardId]}${lockText}\n`;
                         matchedCount++;
+
+                        for (const [charName, idList] of Object.entries(characterCardMap)) {
+                            if (idList.includes(cardId)) {
+                                if (isLocked) {
+                                    characterStats[charName].locked++;
+                                } else {
+                                    characterStats[charName].obtained++;
+                                }
+                                break;
+                            }
+                        }
                     } else {
                         htmlContent += `${cardId} → 未登録のカード${lockText}\n`;
                     }
@@ -203,9 +219,10 @@
         });
     }
 
-    htmlContent += `\n--- キャラごとのカード枚数 ---\n`;
-    for (const [name, idList] of Object.entries(characterCardMap)) {
-        htmlContent += `${name}：${idList.length}枚\n`;
+    // キャラごとの結果出力
+    htmlContent += `\n--- キャラごとのカード獲得枚数(Special Cardは計算外) ---\n`;
+    for (const [name, stats] of Object.entries(characterStats)) {
+        htmlContent += `${name}：総${stats.total}枚 / 獲得${stats.obtained}枚 / 未獲得${stats.locked}枚\n`;
     }
 
     htmlContent += `\n--- info ---\n`;
