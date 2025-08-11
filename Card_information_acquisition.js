@@ -203,7 +203,7 @@
         });
     }
 
-    htmlContent += `\n--- キャラごとの所持カード種類数 ---\n`;
+    htmlContent += `\n--- キャラごとのカード枚数 ---\n`;
     for (const [name, idList] of Object.entries(characterCardMap)) {
         htmlContent += `${name}：${idList.length}枚\n`;
     }
