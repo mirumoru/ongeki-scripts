@@ -44,6 +44,10 @@
         { name: "早乙女 彩華", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1080_ayaka_saotome.jsonc' },
         { name: "桜井 春菜", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1070_haruna_sakurai.jsonc' },
 
+        // 7EVENDAYS⇔HOLIDAYS
+        { name: "柏木 咲姫", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1100_saki_kashiwagi.jsonc' },
+        { name: "井之原 小星", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1110_koboshi_inohara.jsonc' },
+
         // R.B.P.
         { name: "珠洲島 有栖", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1130_arisu_suzushima.jsonc' },
 
