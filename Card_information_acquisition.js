@@ -49,12 +49,17 @@
         { name: "井之原 小星", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1110_koboshi_inohara.jsonc' },
 
         // R.B.P.
+        { name: "逢坂 茜", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1120_akane_ousaka.jsonc' },
+        { name: "九條 楓", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1090_kaede_kujo.jsonc' },
         { name: "珠洲島 有栖", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1130_arisu_suzushima.jsonc' },
 
         // マーチングポケッツ
         { name: "日向 千夏", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1140_chinatsu_hinata.jsonc' },
         { name: "柏木 美亜", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1160_mia_kashiwagi.jsonc' },
-        { name: "東雲 つむぎ", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1150_tsumugi_shinonome.jsonc' }
+        { name: "東雲 つむぎ", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1150_tsumugi_shinonome.jsonc' },
+
+        // 刹那
+        { name: "皇城 セツナ", url: 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/1170_setsuna_sumeragi.jsonc' }
     ];
 
     function delay(ms) {
@@ -115,8 +120,8 @@
         }
     }
 
-    const specialMenuMapURL = 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/special_menu.json';
-    const specialCardMapURL = 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/special_card.json';
+    const specialMenuMapURL = 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/special_menu.json'; // 食べ物カード
+    const specialCardMapURL = 'https://mirumoru.github.io/ongeki-scripts/Card_ID_and_name/special_card.json'; // スペシャルカード
 
     const specialMenuImageMap = await fetchSpecialMap(specialMenuMapURL, "Special Menu");
     const specialCardImageMap = await fetchSpecialMap(specialCardMapURL, "Special Card");
