@@ -36,6 +36,9 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Rating_Ranking_acquisition_script.js";document.body.appendChild(s);})();
 ```
 
-## カード情報取得 (準備中)
+## カード番号取得しカード名を一覧で表示  
 オンゲキカード図鑑から取得したカード番号を[Card_ID_and_name](Card_ID_and_name)から探しカード名を別タブで表示されます。  
 Card_ID_and_nameにあるjsoncファイルはご自由に使っても構いませんが何らかの損害が発生した場合、一切責任を負いません。自己責任でお願いします。  
+```
+javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Card_information_acquisition.js";document.body.appendChild(s);})();
+```
