@@ -24,7 +24,7 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 
 ## ランキング取得  
 ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
-別タブにて取得したランキングが表示されます。
+取得したランキングが別タブで表示されます。
 ページの下部にhtmlとして保存するボタンがあります。  
 いろんな県や店舗でバトルランク / ポイントやレーティングのランキングデータを保存したりして旅の記録にしてみてください。
 ### バトルポイントランキング  
@@ -35,3 +35,7 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Rating_Ranking_acquisition_script.js";document.body.appendChild(s);})();
 ```
+
+## カード情報取得 (準備中)
+オンゲキカード図鑑から取得したカード番号を[Card_ID_and_name](Card_ID_and_name)から探しカード名を別タブで表示されます。  
+Card_ID_and_nameにあるjsoncファイルはご自由に使っても構いませんが何らかの損害が発生した場合、一切責任を負いません。自己責任でお願いします。  
