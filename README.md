@@ -42,3 +42,9 @@ Card_ID_and_nameにあるjsoncファイルはご自由に使っても構いま�
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Card_information_acquisition.js";document.body.appendChild(s);})();
 ```
+## 最終プレイ日時を一覧で表示 
+ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
+楽曲別レコードで楽曲ジャンルや難易度を指定した上で実行してください。
+```
+javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Songpage_last_played_date.js";document.body.appendChild(s);})();
+```
