@@ -7,17 +7,20 @@
 
 ## 各章ジュエル表示
 しずくの数も取得するようにしました。<br>
+ソースコード:[get_jewels](get_jewels.js)  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/get_jewels.js";document.body.appendChild(s);})();  
 ```
 ## DDF&DDAジュエル計算
 正確ではない可能性があります。ご注意ください。<br>
+ソースコード:[jewel_calculator](jewel_calculator.js)  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/jewel_calculator.js";document.body.appendChild(s);})();  
 ```
 
 ## 各キャラクター全国1位表  
 ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
+ソースコード:[Character_doi_ranking](Character_doi_ranking.js)  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Character_doi_ranking.js";document.body.appendChild(s);})();
 ```
@@ -28,10 +31,12 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 ページの下部にhtmlとして保存するボタンがあります。  
 いろんな県や店舗でバトルランク / ポイントやレーティングのランキングデータを保存したりして旅の記録にしてみてください。
 ### バトルポイントランキング  
+ソースコード:[Battle_ranking_acquisition_script](Battle_ranking_acquisition_script.js)  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Battle_ranking_acquisition_script.js";document.body.appendChild(s);})();
 ```
 ### レーティングランキング  
+ソースコード:[Rating_Ranking_acquisition_script](Rating_Ranking_acquisition_script.js)  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Rating_Ranking_acquisition_script.js";document.body.appendChild(s);})();
 ```
@@ -39,6 +44,14 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 ## カード番号取得しカード名を一覧で表示  
 オンゲキカード図鑑から取得したカード番号を[Card_ID_and_name](Card_ID_and_name)から探しカード名を別タブで表示されます。  
 Card_ID_and_nameにあるjsoncファイルはご自由に使っても構いませんが何らかの損害が発生した場合、一切責任を負いません。自己責任でお願いします。  
+ソースコード:[Card_information_acquisition](Card_information_acquisition.js)  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Card_information_acquisition.js";document.body.appendChild(s);})();
+```
+## 最終プレイ日時を一覧で表示 
+ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
+楽曲別レコードで楽曲ジャンルや難易度を指定した上で実行してください。  
+ソースコード:[Songpage_last_played_date](Songpage_last_played_date.js)  
+```
+javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Songpage_last_played_date.js";document.body.appendChild(s);})();
 ```
