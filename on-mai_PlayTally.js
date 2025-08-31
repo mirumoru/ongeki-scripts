@@ -39,7 +39,7 @@ if (url.startsWith("https://ongeki-net.com/ongeki-mobile/record/playlog/")) {
 
 
     // ========================
-    // マイマイ: https://maimaidx.jp/maimai-mobile/record/
+    // maimai: https://maimaidx.jp/maimai-mobile/record/
     // ========================
     else if (url.startsWith("https://maimaidx.jp/maimai-mobile/record/")) {
         let playCountPerDay = {};
