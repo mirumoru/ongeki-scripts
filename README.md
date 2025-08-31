@@ -19,14 +19,13 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 ```
 
 ## 各キャラクター全国1位表  
-ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
 ソースコード:[Character_doi_ranking](Character_doi_ranking.js)  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Character_doi_ranking.js";document.body.appendChild(s);})();
 ```
 
 ## ランキング取得  
-ゲキチュウマイ-NET スタンダードコースの登録が必要です。  
+県や店舗別のランキング取得にはゲキチュウマイ-NET スタンダードコースの登録が必要です。  
 取得したランキングが別タブで表示されます。
 ページの下部にhtmlとして保存するボタンがあります。  
 いろんな県や店舗でバトルランク / ポイントやレーティングのランキングデータを保存したりして旅の記録にしてみてください。
@@ -54,4 +53,10 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 ソースコード:[Songpage_last_played_date](Songpage_last_played_date.js)  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Songpage_last_played_date.js";document.body.appendChild(s);})();
+```
+## オンゲキとmaimaiでプレイ履歴からプレイ回数を取得します。
+オンゲキで使用するにはゲキチュウマイ-NET スタンダードコースの登録が必要です。  
+ソースコード:[on-mai_PlayTally](on-mai_PlayTally.js)  
+```
+javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/on-mai_PlayTally.js";document.body.appendChild(s);})();
 ```
