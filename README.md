@@ -54,8 +54,9 @@ javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/Songpage_last_played_date.js";document.body.appendChild(s);})();
 ```
-## オンゲキとmaimaiでプレイ履歴からプレイ回数を取得します。
+## オンゲキとmaimaiでプレイ履歴からプレイ回数を表示
 オンゲキで使用するにはゲキチュウマイ-NET スタンダードコースの登録が必要です。  
+レコードのプレイ履歴の画面で実行して下さい。  
 ソースコード:[on-mai_PlayTally](on-mai_PlayTally.js)  
 ```
 javascript:(()=>{let s=document.createElement('script');s.src="https://mirumoru.github.io/ongeki-scripts/on-mai_PlayTally.js";document.body.appendChild(s);})();
