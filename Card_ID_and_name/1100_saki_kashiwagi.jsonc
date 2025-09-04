@@ -1,5 +1,5 @@
 [
-	/* Data Update:2025-08-13 */
+	/* Data Update:2025-09-04 */
 	{ "id": "[O.N.G.E.K.I.]1.00-0088", "name": "【N】柏木 咲姫"},
 	{ "id": "[O.N.G.E.K.I.]1.00-0089", "name": "【R】柏木 咲姫[表情:恥じらい]"},
 	{ "id": "[O.N.G.E.K.I.]1.00-0090", "name": "【R】柏木 咲姫[体操着]"},
@@ -32,7 +32,9 @@
 	{ "id": "[O.N.G.E.K.I.]1.35-0052", "name": "【SR】柏木 咲姫[Q. オンゲキの良いところは？]"},
 	{ "id": "[O.N.G.E.K.I.]1.35-0074", "name": "【SSR】柏木 咲姫[オンゲキーズ王決定戦]"},
 	{ "id": "[O.N.G.E.K.I.]1.45-0092", "name": "【SSR】柏木 咲姫[Primera Fes. ～Summer Stage～]"},
-	{ "id": "[O.N.G.E.K.I.]1.45-0096", "name": "【SSR】柏木 咲姫[Individual on parade!]"}
+	{ "id": "[O.N.G.E.K.I.]1.45-0096", "name": "【SSR】柏木 咲姫[Individual on parade!]"},
+	{ "id": "[O.N.G.E.K.I.]1.50-0038", "name": "【SSR】柏木 咲姫[ハーバリウム・フェアリーズ]"},
+	{ "id": "[O.N.G.E.K.I.]1.50-0067", "name": "【SSR】柏木 咲姫[ハーバリウム・フェアリーズ/reverse side]"}
 
 	// { "id": "", "name": ""},
 ]

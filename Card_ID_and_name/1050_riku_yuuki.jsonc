@@ -1,5 +1,5 @@
 [
-	/* Data Update:2025-08-13 */
+	/* Data Update:2025-09-04 */
 	{ "id": "[O.N.G.E.K.I.]1.00-0040", "name": "【N】結城 莉玖"},
 	{ "id": "[O.N.G.E.K.I.]1.00-0041", "name": "【R】結城 莉玖[表情:ドヤ]"},
 	{ "id": "[O.N.G.E.K.I.]1.00-0042", "name": "【R】結城 莉玖[体操着]"},
@@ -34,6 +34,7 @@
 	{ "id": "[O.N.G.E.K.I.]1.45-0089", "name": "【SSR】結城 莉玖[Primera Fes. ～Cheer Stage～]"},
 	{ "id": "[O.N.G.E.K.I.]1.50-0005", "name": "【SSR】結城 莉玖[6th Anniversary Live]"},
 	{ "id": "[O.N.G.E.K.I.]1.50-0049", "name": "【SSR】結城 莉玖[O.N.G.E.K.I. 7th Anniversary]"},
-	{ "id": "[O.N.G.E.K.I.]1.50-0033", "name": "【SSR】結城 莉玖[ハーバリウム・フェアリーズ]"}
+	{ "id": "[O.N.G.E.K.I.]1.50-0033", "name": "【SSR】結城 莉玖[ハーバリウム・フェアリーズ]"},
+	{ "id": "[O.N.G.E.K.I.]1.50-0062", "name": "【SSR】結城 莉玖[ハーバリウム・フェアリーズ/reverse side]"}
 	// { "id": "", "name": ""},
 ]
