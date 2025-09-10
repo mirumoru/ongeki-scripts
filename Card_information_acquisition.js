@@ -127,7 +127,7 @@
     const specialCardImageMap = await fetchSpecialMap(specialCardMapURL, "Special Card");
 
     const BaseURL = "https://ongeki-net.com/ongeki-mobile/card/pages/?idx="; // カード情報取得先
-    const characterIds = Array.from({ length: 20 }, (_, i) => i + 1);
+    const characterIds = Array.from({ length: 21 }, (_, i) => i + 1);
 
     let specialMenuCards = [];
     let specialCards = [];
