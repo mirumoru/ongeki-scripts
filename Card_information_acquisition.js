@@ -77,6 +77,9 @@
     // キャラ別集計用
     let characterStats = {};
 
+    // ページ数
+    const numberpages = 21;
+
     // キャラごとのカードIDとカード名を取得・格納する非同期関数
 
     const fetchAllJSON = async () => {
@@ -127,7 +130,7 @@
     const specialCardImageMap = await fetchSpecialMap(specialCardMapURL, "Special Card");
 
     const BaseURL = "https://ongeki-net.com/ongeki-mobile/card/pages/?idx="; // カード情報取得先
-    const characterIds = Array.from({ length: 21 }, (_, i) => i + 1);
+    const characterIds = Array.from({ length: numberpages }, (_, i) => i + 1);
 
     let specialMenuCards = [];
     let specialCards = [];
@@ -137,7 +140,7 @@
     let htmlContent = `<h2>カード集計結果</h2><pre style="font-size: 14px;">`;
 
     for (const idx of characterIds) {
-        updateProgress(`カード取得中... (${idx}/20)`);
+        updateProgress(`カード取得中... (${idx}/${numberpages})`);
 
         const url = `${BaseURL}${idx}`;
         await delay(1000); // 遅延1秒
