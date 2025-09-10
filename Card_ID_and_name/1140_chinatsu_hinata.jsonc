@@ -1,5 +1,5 @@
 [
-	/* Data Update:2025-09-04 */
+	/* Data Update:2025-09-10 */
 	{ "id": "[O.N.G.E.K.I.]1.10-0009", "name": "【N】日向 千夏"},
 	{ "id": "[O.N.G.E.K.I.]1.10-0010", "name": "【R】日向 千夏[シューター・ドレス]"},
 	{ "id": "[O.N.G.E.K.I.]1.10-0011", "name": "【R】日向 千夏[制服 表情:わーい!]"},
@@ -33,7 +33,7 @@
 	{ "id": "[O.N.G.E.K.I.]1.35-0060", "name": "【SSR】日向 千夏[いちげき！]"},
 	{ "id": "[O.N.G.E.K.I.]1.45-0088", "name": "【SSR】日向 千夏[Primera Fes. ～Cheer Stage～]"},
 	{ "id": "[O.N.G.E.K.I.]1.45-0097", "name": "【SSR】日向 千夏[Individual on parade!]"},
-	{ "id": "[O.N.G.E.K.I.]1.50-0072", "name": "【SSR】日向 千夏[ハーバリウム・フェアリーズ/reverse side]"}
+	{ "id": "[O.N.G.E.K.I.]1.50-0043", "name": "【SSR】日向 千夏[ハーバリウム・フェアリーズ/reverse side]"}
 
 	// { "id": "", "name": ""},
 ]
